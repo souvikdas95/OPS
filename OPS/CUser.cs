@@ -142,15 +142,17 @@ namespace OPS
         }*/
 
         public async static Task<Boolean> Register(String username,
-                                                               String password,
-                                                               String email,
-                                                               Byte type)
+                                                   String password,
+                                                   String email,
+                                                   Byte type)
         {
             try
             {
                 // Check if Entry with Username or Email ID already exists
-                String sql = "SELECT * FROM `user` WHERE `username` = '" + username + "' OR `email` = '" + email + "' LIMIT 1";
+                String sql = "SELECT * FROM `user` WHERE `username` = @username OR `email` = @email LIMIT 1";
                 MySqlCommand cmd = new MySqlCommand(sql, Program.conn);
+                cmd.Parameters.AddWithValue("@username", username);
+                cmd.Parameters.AddWithValue("@email", email);
                 DbDataReader reader = await cmd.ExecuteReaderAsync();
                 cmd.Dispose();
                 if (await reader.ReadAsync())
@@ -166,12 +168,15 @@ namespace OPS
                 // Insert new record / Register in User Table
                 sql = "INSERT INTO `user` " +
                       "(`username`, `password`, `email`, `type`, `status`) " +
-                      "VALUES ('" + username + "', '" + password + "', '" + email + "', '" + (1 << type) + "', '0')";
+                      "VALUES (@username, @password, @email, @type, '0')";
                 cmd = new MySqlCommand(sql, Program.conn);
+                cmd.Parameters.AddWithValue("@username", username);
+                cmd.Parameters.AddWithValue("@password", password);
+                cmd.Parameters.AddWithValue("@email", email);
+                cmd.Parameters.AddWithValue("@type", (Byte)(1<<type));
                 await cmd.ExecuteNonQueryAsync();
-                cmd.Dispose();
-
                 // Note: Corresponding entries in subuser tables are created automatically using triggers
+                CUtils.LastLogMsg = null;
             }
             catch (Exception ex)
             {
@@ -189,8 +194,9 @@ namespace OPS
             CUser ret = null;
             try
             {
-                String sql = "SELECT * FROM `user` WHERE `id` = '" + id + "'";
+                String sql = "SELECT * FROM `user` WHERE `id` = @id";
                 MySqlCommand cmd = new MySqlCommand(sql, Program.conn);
+                cmd.Parameters.AddWithValue("@id", id);
                 DbDataReader reader = await cmd.ExecuteReaderAsync();
                 cmd.Dispose();
                 if (!(await reader.ReadAsync()))
@@ -226,8 +232,9 @@ namespace OPS
             CUser ret = null;
             try
             {
-                String sql = "SELECT * FROM `user` WHERE `username` = '" + username + "' LIMIT 1";
+                String sql = "SELECT * FROM `user` WHERE `username` = @username LIMIT 1";
                 MySqlCommand cmd = new MySqlCommand(sql, Program.conn);
+                cmd.Parameters.AddWithValue("@username", username);
                 DbDataReader reader = await cmd.ExecuteReaderAsync();
                 cmd.Dispose();
                 if (!(await reader.ReadAsync()))
@@ -275,8 +282,9 @@ namespace OPS
         {
             try
             {
-                String sql = "DELETE FROM `user` WHERE `id` = '" + id + "'";
+                String sql = "DELETE FROM `user` WHERE `id` = @id";
                 MySqlCommand cmd = new MySqlCommand(sql, Program.conn);
+                cmd.Parameters.AddWithValue("@id", id);
                 await cmd.ExecuteNonQueryAsync();
                 cmd.Dispose();
                 CUtils.LastLogMsg = null;
@@ -298,30 +306,36 @@ namespace OPS
         {
             try
             {
-                MySqlCommand cmd;
+                MySqlCommand cmd = new MySqlCommand();
+                cmd.Connection = Program.conn;
                 Boolean hasChange = false;
                 StringBuilder sql = new StringBuilder("UPDATE `user` SET ");
                 if (!this._password.Equals(password))
                 {
                     hasChange = true;
-                    sql.Append("`password` = '" + password + "'");
+                    sql.Append("`password` = @password");
+                    cmd.Parameters.AddWithValue("@password", password);
                     this._password = password;
                 }
                 if (!this._email.Equals(email))
                 {
                     // Check for existing emails
-                    cmd = new MySqlCommand("SELECT CASE WHEN EXISTS (SELECT * FROM `user` WHERE `email` = '" + email + "') THEN 1 ELSE 0 END", Program.conn);
-                    if ((Int32)(Int64)(await cmd.ExecuteScalarAsync()) == 1)
+                    MySqlCommand temp = new MySqlCommand("SELECT CASE WHEN EXISTS (SELECT * FROM `user` WHERE `email` = @email) THEN 1 ELSE 0 END", Program.conn);
+                    temp.Parameters.AddWithValue("@email", email);
+                    if ((Int32)(Int64)(await temp.ExecuteScalarAsync()) == 1)
                     {
                         CUtils.LastLogMsg = "Email ID already Exists!";
+                        temp.Dispose();
+                        cmd.Dispose();
                         return false;
                     }
-
+                    temp.Dispose();
                     if (hasChange)
                         sql.Append(", ");
                     else
                         hasChange = true;
-                    sql.Append("`email` = '" + email + "'");
+                    sql.Append("`email` = @email");
+                    cmd.Parameters.AddWithValue("@email", email);
                     this._email = email;
                 }
                 if (!(this.type == type))
@@ -330,16 +344,20 @@ namespace OPS
                         sql.Append(", ");
                     else
                         hasChange = true;
-                    sql.Append("`type` = '" + type + "'");
+                    sql.Append("`type` = @type");
+                    cmd.Parameters.AddWithValue("@type", type);
                     this._type = type;
                 }
                 if (!hasChange)
                 {
+                    sql.Clear();
+                    cmd.Dispose();
                     CUtils.LastLogMsg = null;
                     return false;
                 }
-                sql.Append(" WHERE `id` = '" + this._id + "'");
-                cmd = new MySqlCommand(sql.ToString(), Program.conn);
+                sql.Append(" WHERE `id` = @id");
+                cmd.Parameters.AddWithValue("@id", this._id);
+                cmd.CommandText = sql.ToString();
                 sql.Clear();
                 await cmd.ExecuteNonQueryAsync();
                 cmd.Dispose();

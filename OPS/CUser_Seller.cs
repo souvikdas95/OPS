@@ -78,8 +78,9 @@ namespace OPS
             CUser_Seller ret = null;
             try
             {
-                String sql = "SELECT * FROM `user_seller` WHERE `user_id` = '" + user_id + "'";
+                String sql = "SELECT * FROM `user_seller` WHERE `user_id` = @user_id";
                 MySqlCommand cmd = new MySqlCommand(sql, Program.conn);
+                cmd.Parameters.AddWithValue("@user_id", user_id);
                 DbDataReader reader = await cmd.ExecuteReaderAsync();
                 cmd.Dispose();
                 if (!(await reader.ReadAsync()))
@@ -117,11 +118,14 @@ namespace OPS
             try
             {
                 Boolean hasChange = false;
+                MySqlCommand cmd = new MySqlCommand();
+                cmd.Connection = Program.conn;
                 StringBuilder sql = new StringBuilder("UPDATE `user_seller` SET ");
                 if (!this._name.Equals(name))
                 {
                     hasChange = true;
-                    sql.Append("`name` = '" + name + "'");
+                    sql.Append("`name` = @name");
+                    cmd.Parameters.AddWithValue("@name", name);
                     this._name = name;
                 }
                 if (!(this._sales == sales))
@@ -130,7 +134,8 @@ namespace OPS
                         sql.Append(", ");
                     else
                         hasChange = true;
-                    sql.Append("`sales` = '" + sales + "'");
+                    sql.Append("`sales` = @sales");
+                    cmd.Parameters.AddWithValue("@sales", sales);
                     this._sales = sales;
                 }
                 if (!(this._raters == raters))
@@ -139,7 +144,8 @@ namespace OPS
                         sql.Append(", ");
                     else
                         hasChange = true;
-                    sql.Append("`raters` = '" + raters + "'");
+                    sql.Append("`raters` = @raters");
+                    cmd.Parameters.AddWithValue("@raters", raters);
                     this._raters = raters;
                 }
                 if (!(this._rating == rating))
@@ -148,16 +154,19 @@ namespace OPS
                         sql.Append(", ");
                     else
                         hasChange = true;
-                    sql.Append("`rating` = '" + rating + "'");
+                    sql.Append("`rating` = @rating");
+                    cmd.Parameters.AddWithValue("@rating", rating);
                     this._rating = rating;
                 }
                 if (!hasChange)
                 {
+                    sql.Clear();
+                    cmd.Dispose();
                     CUtils.LastLogMsg = null;
                     return false;
                 }
-                sql.Append(" WHERE `user_id` = '" + this._user_id + "'");
-                MySqlCommand cmd = new MySqlCommand(sql.ToString(), Program.conn);
+                sql.Append(" WHERE `user_id` = @user_id");
+                cmd.Parameters.AddWithValue("@user_id", this._user_id);
                 sql.Clear();
                 await cmd.ExecuteNonQueryAsync();
                 cmd.Dispose();

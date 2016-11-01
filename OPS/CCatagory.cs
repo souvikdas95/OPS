@@ -69,13 +69,19 @@ namespace OPS
             try
             {
                 // Check if Entry with Name and Parent ID already exists
-                String sql = "SELECT * FROM `user` WHERE `name` = '" + name + "'";
+                MySqlCommand cmd = new MySqlCommand();
+                cmd.Connection = Program.conn;
+                String sql = "SELECT * FROM `user` WHERE `name` = @name";
+                cmd.Parameters.AddWithValue("@name", name);
                 if (parent_id != 0)
-                    sql += " AND `parent_id` = '" + parent_id + "'";
+                {
+                    sql += " AND `parent_id` = @parent_id";
+                    cmd.Parameters.AddWithValue("@parent_id", parent_id);
+                }
                 else
                     sql += " AND `parent_id` = '0' OR `parent_id` is NULL";
                 sql += " LIMIT 1";
-                MySqlCommand cmd = new MySqlCommand(sql, Program.conn);
+                cmd.CommandText = sql;
                 DbDataReader reader = await cmd.ExecuteReaderAsync();
                 cmd.Dispose();
                 if (await reader.ReadAsync())
@@ -91,8 +97,11 @@ namespace OPS
                 // Insert new record / Register in User Table
                 sql = "INSERT INTO `catagory` " +
                              "(`name`, `description`, `parent_id`) VALUES" +
-                             "('" + name + "', '" + description + "', '" + parent_id + "')";
+                             "(@name, @description, @parent_id)";
                 cmd = new MySqlCommand(sql, Program.conn);
+                cmd.Parameters.AddWithValue("@name", name);
+                cmd.Parameters.AddWithValue("@description", description);
+                cmd.Parameters.AddWithValue("@parent_id", parent_id);
                 await cmd.ExecuteNonQueryAsync();
                 cmd.Dispose();
                 CUtils.LastLogMsg = null;
@@ -113,8 +122,9 @@ namespace OPS
             CCatagory ret = null;
             try
             {
-                String sql = "SELECT * FROM `catagory` WHERE `id` = '" + id + "' LIMIT 1";
+                String sql = "SELECT * FROM `catagory` WHERE `id` = @id LIMIT 1";
                 MySqlCommand cmd = new MySqlCommand(sql, Program.conn);
+                cmd.Parameters.AddWithValue("@id", id);
                 DbDataReader reader = await cmd.ExecuteReaderAsync();
                 cmd.Dispose();
                 if (!(await reader.ReadAsync()))
@@ -146,8 +156,9 @@ namespace OPS
         {
             try
             {
-                String sql = "DELETE FROM `catagory` WHERE `id` = '" + id + "'";
+                String sql = "DELETE FROM `catagory` WHERE `id` = @id";
                 MySqlCommand cmd = new MySqlCommand(sql, Program.conn);
+                cmd.Parameters.AddWithValue("@id", id);
                 await cmd.ExecuteNonQueryAsync();
                 cmd.Dispose();
                 CUtils.LastLogMsg = null;
@@ -170,11 +181,14 @@ namespace OPS
             try
             {
                 Boolean hasChange = false;
+                MySqlCommand cmd = new MySqlCommand();
+                cmd.Connection = Program.conn;
                 StringBuilder sql = new StringBuilder("UPDATE `catagory` SET ");
                 if (!this._name.Equals(name))
                 {
                     hasChange = true;
-                    sql.Append("`name` = '" + name + "'" );
+                    sql.Append("`name` = @name" );
+                    cmd.Parameters.AddWithValue("@name", name);
                     this._name = name;
                 }
                 if (!this._description.Equals(description))
@@ -183,7 +197,8 @@ namespace OPS
                         sql.Append(", ");
                     else
                         hasChange = true;
-                    sql.Append("`description` = '" + description + "'");
+                    sql.Append("`description` = @description");
+                    cmd.Parameters.AddWithValue("@description", description);
                     this._description = description;
                 }
                 if (!(this._parent_id == parent_id))
@@ -192,16 +207,20 @@ namespace OPS
                         sql.Append(", ");
                     else
                         hasChange = true;
-                    sql.Append("`parent_id` = '" + parent_id + "'");
+                    sql.Append("`parent_id` = @parent_id");
+                    cmd.Parameters.AddWithValue("@parent_id", parent_id);
                     this._parent_id = parent_id;
                 }
                 if (!hasChange)
                 {
+                    sql.Clear();
+                    cmd.Dispose();
                     CUtils.LastLogMsg = null;
                     return false;
                 }
-                sql.Append(" WHERE `id` = '" + this._id + "'");
-                MySqlCommand cmd = new MySqlCommand(sql.ToString(), Program.conn);
+                sql.Append(" WHERE `id` = @id");
+                cmd.Parameters.AddWithValue("@id", this._id);
+                cmd.CommandText = sql.ToString();
                 sql.Clear();
                 await cmd.ExecuteNonQueryAsync();
                 cmd.Dispose();
@@ -224,12 +243,17 @@ namespace OPS
             List<CCatagory> ret = new List<CCatagory>();
             try
             {
+                MySqlCommand cmd = new MySqlCommand();
+                cmd.Connection = Program.conn;
                 String sql = "SELECT * FROM `catagory`";
                 if (parent_id != 0)  // child catagories
-                    sql += " WHERE `parent_id` = '" + parent_id + "'";
+                {
+                    sql += " WHERE `parent_id` = @parent_id";
+                    cmd.Parameters.AddWithValue("@parent_id", parent_id);
+                }
                 else
                     sql += " WHERE `parent_id` = '0' OR `parent_id` is NULL";
-                MySqlCommand cmd = new MySqlCommand(sql, Program.conn);
+                cmd.CommandText = sql;
                 DbDataReader reader = await cmd.ExecuteReaderAsync();
                 cmd.Dispose();
                 while (await reader.ReadAsync())

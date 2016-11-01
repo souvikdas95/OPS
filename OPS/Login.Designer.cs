@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.tableLayoutPanel_Details = new System.Windows.Forms.TableLayoutPanel();
-            this.label_Username = new System.Windows.Forms.Label();
             this.textBox_Username = new System.Windows.Forms.TextBox();
             this.label_Account = new System.Windows.Forms.Label();
             this.comboBox_Account = new System.Windows.Forms.ComboBox();
             this.label_Password = new System.Windows.Forms.Label();
             this.textBox_Password = new System.Windows.Forms.TextBox();
+            this.label_Username = new System.Windows.Forms.Label();
             this.tableLayoutPanel_Buttons = new System.Windows.Forms.TableLayoutPanel();
             this.button_Submit = new System.Windows.Forms.Button();
             this.button_Register = new System.Windows.Forms.Button();
@@ -71,16 +71,6 @@
             this.tableLayoutPanel_Details.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
             this.tableLayoutPanel_Details.Size = new System.Drawing.Size(278, 90);
             this.tableLayoutPanel_Details.TabIndex = 2;
-            // 
-            // label_Username
-            // 
-            this.label_Username.AutoSize = true;
-            this.label_Username.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_Username.Location = new System.Drawing.Point(23, 8);
-            this.label_Username.Name = "label_Username";
-            this.label_Username.Size = new System.Drawing.Size(71, 16);
-            this.label_Username.TabIndex = 0;
-            this.label_Username.Text = "Username";
             // 
             // textBox_Username
             // 
@@ -133,6 +123,16 @@
             this.textBox_Password.PasswordChar = '*';
             this.textBox_Password.Size = new System.Drawing.Size(135, 20);
             this.textBox_Password.TabIndex = 4;
+            // 
+            // label_Username
+            // 
+            this.label_Username.AutoSize = true;
+            this.label_Username.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_Username.Location = new System.Drawing.Point(23, 8);
+            this.label_Username.Name = "label_Username";
+            this.label_Username.Size = new System.Drawing.Size(71, 16);
+            this.label_Username.TabIndex = 0;
+            this.label_Username.Text = "Username";
             // 
             // tableLayoutPanel_Buttons
             // 

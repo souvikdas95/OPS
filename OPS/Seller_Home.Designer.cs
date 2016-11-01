@@ -32,7 +32,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Seller_Home));
             this.tabControl_MAIN = new System.Windows.Forms.TabControl();
             this.tabPage_Product = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel_Product_Outer = new System.Windows.Forms.TableLayoutPanel();
@@ -45,10 +44,10 @@
             this.button_Product_Search = new System.Windows.Forms.Button();
             this.dataGridView_Product = new System.Windows.Forms.DataGridView();
             this.tabPage_Orders = new System.Windows.Forms.TabPage();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tabPage_Inventory = new System.Windows.Forms.TabPage();
             this.tabPage_Account = new System.Windows.Forms.TabPage();
             this.cProductBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.tabControl_MAIN.SuspendLayout();
             this.tabPage_Product.SuspendLayout();
             this.tableLayoutPanel_Product_Outer.SuspendLayout();
@@ -56,7 +55,6 @@
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Product)).BeginInit();
             this.tabPage_Orders.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cProductBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -249,7 +247,7 @@
             // 
             // tabPage_Orders
             // 
-            this.tabPage_Orders.Controls.Add(this.pictureBox1);
+            this.tabPage_Orders.Controls.Add(this.tableLayoutPanel3);
             this.tabPage_Orders.Location = new System.Drawing.Point(104, 4);
             this.tabPage_Orders.Name = "tabPage_Orders";
             this.tabPage_Orders.Padding = new System.Windows.Forms.Padding(3);
@@ -257,17 +255,6 @@
             this.tabPage_Orders.TabIndex = 1;
             this.tabPage_Orders.Text = "Orders";
             this.tabPage_Orders.UseVisualStyleBackColor = true;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::OPS.Properties.Resources.noimage;
-            this.pictureBox1.InitialImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.InitialImage")));
-            this.pictureBox1.Location = new System.Drawing.Point(186, 104);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(126, 111);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
             // 
             // tabPage_Inventory
             // 
@@ -291,6 +278,18 @@
             // 
             this.cProductBindingSource.DataSource = typeof(OPS.CProduct);
             // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.ColumnCount = 1;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(98, 101);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 2;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(200, 100);
+            this.tableLayoutPanel3.TabIndex = 0;
+            // 
             // Seller_Home
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -313,7 +312,6 @@
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Product)).EndInit();
             this.tabPage_Orders.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cProductBindingSource)).EndInit();
             this.ResumeLayout(false);
 
@@ -335,7 +333,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.DataGridView dataGridView_Product;
         private System.Windows.Forms.ComboBox comboBox_Product_Search;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.BindingSource cProductBindingSource;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
     }
 }

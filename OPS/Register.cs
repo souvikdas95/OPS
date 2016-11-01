@@ -52,7 +52,7 @@ namespace OPS
                 if (CUtils.LastLogMsg != null)
                     MessageBox.Show("Cause: " + CUtils.LastLogMsg, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 else
-                    MessageBox.Show("Cause: " + CUtils.LastLogMsg, "Failed!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show("Cause: Invalid Username!", "Failed!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
@@ -63,7 +63,7 @@ namespace OPS
                 if (CUtils.LastLogMsg != null)
                     MessageBox.Show("Cause: " + CUtils.LastLogMsg, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 else
-                    MessageBox.Show("Cause: " + CUtils.LastLogMsg, "Failed!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show("Cause: Invalid Password!", "Failed!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
             password = CUtils.sha256(password);
@@ -75,7 +75,7 @@ namespace OPS
                 if (CUtils.LastLogMsg != null)
                     MessageBox.Show("Cause: " + CUtils.LastLogMsg, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 else
-                    MessageBox.Show("Cause: " + CUtils.LastLogMsg, "Failed!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show("Cause: Invalid Account Type!", "Failed!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
@@ -86,7 +86,7 @@ namespace OPS
                 if (CUtils.LastLogMsg != null)
                     MessageBox.Show("Cause: " + CUtils.LastLogMsg, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 else
-                    MessageBox.Show("Cause: " + CUtils.LastLogMsg, "Failed!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show("Cause: Invalid Email!", "Failed!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
@@ -96,7 +96,7 @@ namespace OPS
                 if (CUtils.LastLogMsg != null)
                     MessageBox.Show("Cause: " + CUtils.LastLogMsg, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 else
-                    MessageBox.Show("Cause: " + CUtils.LastLogMsg, "Failed!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show("Cause: Unknown", "Failed!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
             MessageBox.Show("You have Successfully Registered!", "Success!", MessageBoxButtons.OK, MessageBoxIcon.Information);

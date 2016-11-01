@@ -45,8 +45,13 @@ namespace OPS
         {
             try
             {
-                conn = new MySqlConnection();
-                conn.ConnectionString = "server=localhost;uid=root;pwd=protected;persistsecurityinfo=True;database=db_ops";
+                MySqlConnectionStringBuilder szConn = new MySqlConnectionStringBuilder();
+                szConn.Server = "localhost";
+                szConn.UserID = "root";
+                szConn.Password = "protected";
+                szConn.PersistSecurityInfo = false;
+                szConn.Database = "db_ops";
+                conn = new MySqlConnection(szConn.ToString());
                 await conn.OpenAsync();
             }
             catch (Exception ex)

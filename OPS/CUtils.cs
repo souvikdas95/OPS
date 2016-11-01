@@ -91,8 +91,10 @@ namespace OPS
             }
             try
             {
-                String sql = "select case when exists(select * from information_schema.tables where `table_schema` = '" + "db_ops" + "' and `table_name` = '" + CUser.szUserTables[type] + "') then 1 else 0 end";
+                String sql = "select case when exists(select * from information_schema.tables where `table_schema` = @table_schema and `table_name` = @table_name) then 1 else 0 end";
                 MySqlCommand cmd = new MySqlCommand(sql, Program.conn);
+                cmd.Parameters.AddWithValue("table_schema", "db_ops");
+                cmd.Parameters.AddWithValue("table_name", CUser.szUserTables[type]);
                 if ((Int32)(Int64)(await cmd.ExecuteScalarAsync()) == 0)
                 {
                     LastLogMsg = null;

@@ -139,13 +139,19 @@ namespace OPS
             try
             {
                 // Check if Entry with Catagory ID and Name already exists
-                String sql = "SELECT * FROM `product` WHERE `name` = '" + name + "'";
+                MySqlCommand cmd = new MySqlCommand();
+                cmd.Connection = Program.conn;
+                String sql = "SELECT * FROM `product` WHERE `name` = @name";
+                cmd.Parameters.AddWithValue("@name", name);
                 if (catagory_id != 0)
-                    sql += " AND `catagory_id` = '" + catagory_id + "'";
+                {
+                    sql += " AND `catagory_id` = @catagory_id";
+                    cmd.Parameters.AddWithValue("@catagory_id", catagory_id);
+                }
                 else
                     sql += " AND `catagory_id` = '0' OR `catagory_id` is NULL";
                 sql += " LIMIT 1";
-                MySqlCommand cmd = new MySqlCommand(sql, Program.conn);
+                cmd.CommandText = sql;
                 DbDataReader reader = await cmd.ExecuteReaderAsync();
                 cmd.Dispose();
                 if (await reader.ReadAsync())
@@ -163,8 +169,12 @@ namespace OPS
                 image.Save(memStream, System.Drawing.Imaging.ImageFormat.Jpeg);
                 sql = "INSERT INTO `product` " +
                       "(`catagory_id`, `name`, `description`, `image`) VALUES" +
-                      "('" + catagory_id + "', '" + name + "', '" + description + "', '" + Encoding.UTF8.GetString(memStream.ToArray()) + "')";
+                      "(@catagory_id, @name, @description, @image)";
                 cmd = new MySqlCommand(sql, Program.conn);
+                cmd.Parameters.AddWithValue("@catagory_id", catagory_id);
+                cmd.Parameters.AddWithValue("@name", name);
+                cmd.Parameters.AddWithValue("@description", description);
+                cmd.Parameters.AddWithValue("@image", Encoding.UTF8.GetString(memStream.ToArray()));
                 await cmd.ExecuteNonQueryAsync();
                 cmd.Dispose();
                 CUtils.LastLogMsg = null;
@@ -185,8 +195,9 @@ namespace OPS
             CProduct ret = null;
             try
             {
-                String sql = "SELECT * FROM `product` WHERE `id` = '" + id + "' LIMIT 1";
+                String sql = "SELECT * FROM `product` WHERE `id` = @id LIMIT 1";
                 MySqlCommand cmd = new MySqlCommand(sql, Program.conn);
+                cmd.Parameters.AddWithValue("@id", id);
                 DbDataReader reader = await cmd.ExecuteReaderAsync();
                 cmd.Dispose();
                 if (!(await reader.ReadAsync()))
@@ -224,8 +235,9 @@ namespace OPS
         {
             try
             {
-                String sql = "DELETE FROM `product` WHERE `id` = '" + id + "'";
+                String sql = "DELETE FROM `product` WHERE `id` = @id";
                 MySqlCommand cmd = new MySqlCommand(sql, Program.conn);
+                cmd.Parameters.AddWithValue("@id", id);
                 await cmd.ExecuteNonQueryAsync();
                 cmd.Dispose();
                 CUtils.LastLogMsg = null;
@@ -249,11 +261,14 @@ namespace OPS
             try
             {
                 Boolean hasChange = false;
+                MySqlCommand cmd = new MySqlCommand();
+                cmd.Connection = Program.conn;
                 StringBuilder sql = new StringBuilder("UPDATE `catagory` SET ");
                 if (!(this._catagory_id == catagory_id))
                 {
                     hasChange = true;
-                    sql.Append("`catagory_id` = '" + catagory_id + "'");
+                    sql.Append("`catagory_id` = @catagory_id");
+                    cmd.Parameters.AddWithValue("@catagory_id", catagory_id);
                     this._name = name;
                 }
                 if (!this._name.Equals(name))
@@ -262,7 +277,8 @@ namespace OPS
                         sql.Append(", ");
                     else
                         hasChange = true;
-                    sql.Append("`name` = '" + name + "'");
+                    sql.Append("`name` = @name");
+                    cmd.Parameters.AddWithValue("@name", name);
                     this._name = name;
                 }
                 if (!this._description.Equals(description))
@@ -271,7 +287,8 @@ namespace OPS
                         sql.Append(", ");
                     else
                         hasChange = true;
-                    sql.Append("`description` = '" + description + "'");
+                    sql.Append("`description` = @description");
+                    cmd.Parameters.AddWithValue("@description", description);
                     this._description = description;
                 }
                 if (!(this._image.Equals(image)))
@@ -282,7 +299,8 @@ namespace OPS
                         hasChange = true;
                     MemoryStream memStream = new MemoryStream();
                     image.Save(memStream, System.Drawing.Imaging.ImageFormat.Jpeg);
-                    sql.Append("`image` = '" + Encoding.UTF8.GetString(memStream.ToArray()) + "'");
+                    sql.Append("`image` = @image");
+                    cmd.Parameters.AddWithValue("@image", Encoding.UTF8.GetString(memStream.ToArray()));
                     this._image = image;
                 }
                 if (!hasChange)
@@ -290,8 +308,9 @@ namespace OPS
                     CUtils.LastLogMsg = null;
                     return false;
                 }
-                sql.Append(" WHERE `id` = '" + this._id + "'");
-                MySqlCommand cmd = new MySqlCommand(sql.ToString(), Program.conn);
+                sql.Append(" WHERE `id` = @id");
+                cmd.Parameters.AddWithValue("@id", this._id);
+                cmd.CommandText = sql.ToString();
                 sql.Clear();
                 await cmd.ExecuteNonQueryAsync();
                 cmd.Dispose();
@@ -314,12 +333,17 @@ namespace OPS
             List<CProduct> ret = new List<CProduct>();
             try
             {
+                MySqlCommand cmd = new MySqlCommand();
+                cmd.Connection = Program.conn;
                 String sql = "SELECT * FROM `product`";
                 if (catagory_id != 0)
-                    sql += " WHERE `catagory_id` = '" + catagory_id + "'";
+                {
+                    sql += " WHERE `catagory_id` = @catagory_id";
+                    cmd.Parameters.AddWithValue("@catagory_id", catagory_id);
+                }
                 else
                     sql += " WHERE `catagory_id` = '0' OR `catagory_id` is NULL";
-                MySqlCommand cmd = new MySqlCommand(sql, Program.conn);
+                cmd.CommandText = sql;
                 DbDataReader reader = await cmd.ExecuteReaderAsync();
                 cmd.Dispose();
                 while (await reader.ReadAsync())
@@ -357,13 +381,18 @@ namespace OPS
             BindingList<CProduct> ret = new BindingList<CProduct>();
             try
             {
+                MySqlCommand cmd = new MySqlCommand();
+                cmd.Connection = Program.conn;
                 String sql = "SELECT * FROM `product`";
                 if (catagory_id != 0)
-                    sql += " WHERE `catagory_id` = '" + catagory_id + "'";
+                {
+                    sql += " WHERE `catagory_id` = @catagory_id";
+                    cmd.Parameters.AddWithValue("@catagory_id", catagory_id);
+                }
                 else
                     sql += " WHERE (`catagory_id` = '0' OR `catagory_id` is NULL)";
                 sql += " AND `name` LIKE CONCAT('%', '" + keyword + "', '%')";
-                MySqlCommand cmd = new MySqlCommand(sql, Program.conn);
+                cmd.CommandText = sql;
                 DbDataReader reader = await cmd.ExecuteReaderAsync();
                 cmd.Dispose();
                 while (await reader.ReadAsync())

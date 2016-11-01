@@ -95,26 +95,33 @@ namespace OPS
             try
             {
                 // Check if Entry with Seller ID and Product ID already exists in Inventory
-                String sql = "SELECT * FROM `seller_inventory` WHERE `seller_id` = '" + seller_id + "' and `product_id` = '" + product_id + "' LIMIT 1";
+                String sql = "SELECT * FROM `seller_inventory` WHERE `seller_id` = @seller_id and `product_id` = @product_id LIMIT 1";
                 MySqlCommand cmd = new MySqlCommand(sql, Program.conn);
+                cmd.Parameters.AddWithValue("@seller_id", seller_id);
+                cmd.Parameters.AddWithValue("@product_id", product_id);
                 DbDataReader reader = await cmd.ExecuteReaderAsync();
                 cmd.Dispose();
                 if (await reader.ReadAsync())
                 {
-                    CUtils.LastLogMsg = "Inventory Already Exists!";
                     if (!reader.IsClosed)
                         reader.Close();
+                    CUtils.LastLogMsg = "Inventory Already Exists!";
                     return false;
                 }
                 if (!reader.IsClosed)
                     reader.Close();
 
                 // Insert new record / Register in Inventory Table
-                MemoryStream memStream = new MemoryStream();
                 sql = "INSERT INTO `seller_inventory` " +
                       "(`seller_id`, `product_id`, `price`, `quantity`, `pincode`, `warranty`) VALUES" +
-                      "('" + seller_id + "', '" + product_id + "', '" + price + "', '" + quantity + "', '" + pincode + "', '" + warranty + "')";
+                      "(@seller_id, @product_id, @price, @quantity, @pincode, @warranty)";
                 cmd = new MySqlCommand(sql, Program.conn);
+                cmd.Parameters.AddWithValue("@seller_id", seller_id);
+                cmd.Parameters.AddWithValue("@product_id", product_id);
+                cmd.Parameters.AddWithValue("@price", price);
+                cmd.Parameters.AddWithValue("@quantity", quantity);
+                cmd.Parameters.AddWithValue("@pincode", pincode);
+                cmd.Parameters.AddWithValue("@warranty", warranty);
                 await cmd.ExecuteNonQueryAsync();
                 cmd.Dispose();
                 CUtils.LastLogMsg = null; 
@@ -135,8 +142,10 @@ namespace OPS
             CSeller_Inventory ret = null;
             try
             {
-                String sql = "SELECT * FROM `seller_inventory` WHERE `seller_id` = '" + seller_id + "' AND `product_id` = '" + product_id + "' LIMIT 1";
+                String sql = "SELECT * FROM `seller_inventory` WHERE `seller_id` = @seller_id and `product_id` = @product_id LIMIT 1";
                 MySqlCommand cmd = new MySqlCommand(sql, Program.conn);
+                cmd.Parameters.AddWithValue("@seller_id", seller_id);
+                cmd.Parameters.AddWithValue("@product_id", product_id);
                 DbDataReader reader = await cmd.ExecuteReaderAsync();
                 cmd.Dispose();
                 if (!(await reader.ReadAsync()))
@@ -170,8 +179,10 @@ namespace OPS
         {
             try
             {
-                String sql = "DELETE FROM `seller_inventory` WHERE `seller_id` = '" + seller_id + "' AND `product_id` = '" + product_id + "'";
+                String sql = "DELETE FROM `seller_inventory` WHERE `seller_id` = @seller_id and `product_id` = @product_id";
                 MySqlCommand cmd = new MySqlCommand(sql, Program.conn);
+                cmd.Parameters.AddWithValue("@seller_id", seller_id);
+                cmd.Parameters.AddWithValue("@product_id", product_id);
                 await cmd.ExecuteNonQueryAsync();
                 cmd.Dispose();
                 CUtils.LastLogMsg = null;
@@ -195,11 +206,14 @@ namespace OPS
             try
             {
                 Boolean hasChange = false;
+                MySqlCommand cmd = new MySqlCommand();
+                cmd.Connection = Program.conn;
                 StringBuilder sql = new StringBuilder("UPDATE `user_seller` SET ");
                 if (!(this._price == price))
                 {
                     hasChange = true;
-                    sql.Append("`price` = '" + price + "'");
+                    sql.Append("`price` = @price");
+                    cmd.Parameters.AddWithValue("@price", price);
                     this._price = price;
                 }
                 if (!(this._quantity == quantity))
@@ -208,7 +222,8 @@ namespace OPS
                         sql.Append(", ");
                     else
                         hasChange = true;
-                    sql.Append("`quantity` = '" + quantity + "'");
+                    sql.Append("`quantity` = @quantity");
+                    cmd.Parameters.AddWithValue("@quantity", quantity);
                     this._quantity = quantity;
                 }
                 if (!(this._pincode == pincode))
@@ -217,7 +232,8 @@ namespace OPS
                         sql.Append(", ");
                     else
                         hasChange = true;
-                    sql.Append("`pincode` = '" + pincode + "'");
+                    sql.Append("`pincode` = @pincode");
+                    cmd.Parameters.AddWithValue("@pincode", pincode);
                     this._pincode = pincode;
                 }
                 if (!(this._warranty == warranty))
@@ -226,16 +242,21 @@ namespace OPS
                         sql.Append(", ");
                     else
                         hasChange = true;
-                    sql.Append("`warranty` = '" + warranty + "'");
+                    sql.Append("`warranty` = @warranty");
+                    cmd.Parameters.AddWithValue("@warranty", warranty);
                     this._warranty = warranty;
                 }
                 if (!hasChange)
                 {
+                    sql.Clear();
+                    cmd.Dispose();
                     CUtils.LastLogMsg = null;
                     return false;
                 }
-                sql.Append(" WHERE `seller_id` = '" + this._seller_id + " AND `product_id` = '" + this._product_id + "'");
-                MySqlCommand cmd = new MySqlCommand(sql.ToString(), Program.conn);
+                sql.Append(" WHERE `seller_id` = @seller_id AND `product_id` = @product_id");
+                cmd.Parameters.AddWithValue("@seller_id", this._seller_id);
+                cmd.Parameters.AddWithValue("@product_id", this._product_id);
+                cmd.CommandText = sql.ToString();
                 sql.Clear();
                 await cmd.ExecuteNonQueryAsync();
                 cmd.Dispose();
