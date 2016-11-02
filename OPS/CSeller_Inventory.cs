@@ -208,7 +208,7 @@ namespace OPS
                 Boolean hasChange = false;
                 MySqlCommand cmd = new MySqlCommand();
                 cmd.Connection = Program.conn;
-                StringBuilder sql = new StringBuilder("UPDATE `user_seller` SET ");
+                StringBuilder sql = new StringBuilder("UPDATE `seller_inventory` SET ");
                 if (!(this._price == price))
                 {
                     hasChange = true;

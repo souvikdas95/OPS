@@ -65,6 +65,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CCatagory.cs" />
+    <Compile Include="CCustomer_Cart.cs" />
+    <Compile Include="CUser_Customer.cs" />
     <Compile Include="CProduct.cs" />
     <Compile Include="CSeller_Inventory.cs" />
     <Compile Include="CUser.cs" />
