@@ -13,18 +13,31 @@ namespace OPS
     public partial class Seller_Home_Product_Open : Form
     {
         private CProduct item;
+        private CSeller_Inventory invitem;
         private List<CLocation> location_list;
         private Size imgSize;
+        private Form prev;
 
         public Seller_Home_Product_Open(CProduct arg)
         {
             item = arg;
+            prev = null;
+
+            InitializeComponent();
+        }
+
+        public Seller_Home_Product_Open(CProduct arg, Form arg2)
+        {
+            item = arg;
+            prev = arg2;
+            this.StartPosition = FormStartPosition.Manual;
+            this.Location = prev.Location;
 
             InitializeComponent();
         }
 
         private async void Seller_Home_Product_Open_Load(object sender, EventArgs e)
-        {
+        {            
             // Fill Default Fields
             textBox_Name.Text = item.name;
             comboBox_Catagory.Items.Add(await CCatagory.Retrieve(item.catagory_id));
@@ -64,6 +77,25 @@ namespace OPS
                 tableLayoutPanel3.Controls.Add(extTextBox, 1, tableLayoutPanel3.RowCount - 1);
             }
 
+            // Retrieve Inventory if Exists
+            invitem = await CSeller_Inventory.Retrieve(CUser.cur_user.id, item.id);
+            if (invitem != null)
+            {
+                textBox_Price.Text = invitem.price.ToString();
+                textBox_Price.ReadOnly = true;
+                foreach (CLocation x in comboBox_Pincode.Items)
+                {
+                    if (x.pincode == invitem.pincode)
+                    {
+                        comboBox_Pincode.SelectedItem = x;
+                        break;
+                    }
+                }
+                comboBox_Pincode.Enabled = false;
+                textBox_Warranty.Text = invitem.warranty.ToString();
+                textBox_Warranty.ReadOnly = true;
+            }
+
             // Disable Form Auto Size Later
             Size temp = this.Size;
             this.AutoSize = false;
@@ -86,7 +118,7 @@ namespace OPS
                 MessageBox.Show("Invalid Quantity!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
-            if (String.IsNullOrEmpty(comboBox_Pincode.Text))
+            if (comboBox_Pincode.SelectedIndex < 0)
             {
                 MessageBox.Show("Invalid Pincode!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
@@ -96,34 +128,31 @@ namespace OPS
                 MessageBox.Show("Invalid Warranty!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
-            if (!(await CSeller_Inventory.Register(CUser.cur_user.id,
-                                             item.id,
-                                             Double.Parse(textBox_Price.Text),
-                                             Int32.Parse(textBox_Quantity.Text),
-                                             ((CLocation)comboBox_Pincode.SelectedItem).pincode,
-                                             Double.Parse(textBox_Warranty.Text))))
+            if(invitem != null)
             {
-                if (CUtils.LastLogMsg.Equals("Inventory Already Exists!"))
+                if (!(await invitem.Commit(invitem.price,
+                                          invitem.quantity + Int32.Parse(textBox_Quantity.Text),
+                                          invitem.pincode,
+                                          invitem.warranty)))
                 {
-                    CSeller_Inventory inv = await CSeller_Inventory.Retrieve(CUser.cur_user.id, item.id);
-                    if (inv != null)
-                    {
-                        if (!(await inv.Commit(inv.price,
-                                         inv.quantity + Int32.Parse(textBox_Quantity.Text),
-                                         inv.pincode,
-                                         inv.warranty)))
-                        {
-                            MessageBox.Show("Successfully Added to Inventory!", "Success!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            return;
-                        }
-                    }
-                    MessageBox.Show("Cause: Unknown", "Failed!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    if (CUtils.LastLogMsg != null)
+                        MessageBox.Show("Cause: " + CUtils.LastLogMsg, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    else
+                        MessageBox.Show("Cause: Unknown", "Failed!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     return;
                 }
-                if (CUtils.LastLogMsg != null)
-                    MessageBox.Show("Cause: " + CUtils.LastLogMsg, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                else
+            }
+            else if (!(await CSeller_Inventory.Register(CUser.cur_user.id,
+                                                        item.id,
+                                                        Double.Parse(textBox_Price.Text),
+                                                        Int32.Parse(textBox_Quantity.Text),
+                                                        ((CLocation)comboBox_Pincode.SelectedItem).pincode,
+                                                        Double.Parse(textBox_Warranty.Text))))
+            {
+                if (CUtils.LastLogMsg == null || CUtils.LastLogMsg.Equals("Inventory Already Exists!"))
                     MessageBox.Show("Cause: Unknown", "Failed!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                else
+                    MessageBox.Show("Cause: " + CUtils.LastLogMsg, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             MessageBox.Show("Successfully Added to Inventory!", "Success!", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -170,6 +199,16 @@ namespace OPS
             }
             if (pictureBox_Picture.Size.Width != Width || pictureBox_Picture.Size.Height != Height)
                 pictureBox_Picture.Size = new Size(Width, Height);
+        }
+
+        private void Seller_Home_Product_Open_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (prev != null)
+            {
+                prev.StartPosition = this.StartPosition;
+                prev.Location = this.Location;
+                prev.Visible = true;
+            }
         }
     }
 }

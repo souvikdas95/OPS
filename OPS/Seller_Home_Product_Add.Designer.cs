@@ -1,6 +1,6 @@
 ﻿namespace OPS
 {
-    partial class Seller_Home_Product_Open
+    partial class Seller_Home_Product_Add
     {
         /// <summary>
         /// Required designer variable.
@@ -30,7 +30,7 @@
         {
             this.tableLayoutPanel_Outer = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.button_AddToInventory = new System.Windows.Forms.Button();
+            this.button_Main = new System.Windows.Forms.Button();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label_Price = new System.Windows.Forms.Label();
             this.label_Quantity = new System.Windows.Forms.Label();
@@ -49,10 +49,10 @@
             this.comboBox_Catagory = new System.Windows.Forms.ComboBox();
             this.richTextBox_Description = new System.Windows.Forms.RichTextBox();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
-            this.progressBar_Rating = new System.Windows.Forms.ProgressBar();
-            this.label_Rating = new System.Windows.Forms.Label();
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             this.pictureBox_Picture = new System.Windows.Forms.PictureBox();
+            this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
+            this.button_Browse = new System.Windows.Forms.Button();
             this.tableLayoutPanel_Outer.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -61,6 +61,7 @@
             this.tableLayoutPanel5.SuspendLayout();
             this.tableLayoutPanel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Picture)).BeginInit();
+            this.tableLayoutPanel7.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel_Outer
@@ -80,7 +81,7 @@
             this.tableLayoutPanel_Outer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel_Outer.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel_Outer.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel_Outer.Size = new System.Drawing.Size(464, 321);
+            this.tableLayoutPanel_Outer.Size = new System.Drawing.Size(464, 345);
             this.tableLayoutPanel_Outer.TabIndex = 0;
             // 
             // tableLayoutPanel1
@@ -91,24 +92,24 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.button_AddToInventory, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.button_Main, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(5, 287);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(5, 311);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(454, 29);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
-            // button_AddToInventory
+            // button_Main
             // 
-            this.button_AddToInventory.Location = new System.Drawing.Point(177, 3);
-            this.button_AddToInventory.Name = "button_AddToInventory";
-            this.button_AddToInventory.Size = new System.Drawing.Size(99, 23);
-            this.button_AddToInventory.TabIndex = 0;
-            this.button_AddToInventory.Text = "Add To Inventory";
-            this.button_AddToInventory.UseVisualStyleBackColor = true;
-            this.button_AddToInventory.Click += new System.EventHandler(this.button_AddToInventory_Click);
+            this.button_Main.Location = new System.Drawing.Point(177, 3);
+            this.button_Main.Name = "button_Main";
+            this.button_Main.Size = new System.Drawing.Size(99, 23);
+            this.button_Main.TabIndex = 0;
+            this.button_Main.Text = "Continue";
+            this.button_Main.UseVisualStyleBackColor = true;
+            this.button_Main.Click += new System.EventHandler(this.button_Main_Click);
             // 
             // tableLayoutPanel2
             // 
@@ -129,13 +130,14 @@
             this.tableLayoutPanel2.Controls.Add(this.comboBox_Pincode, 3, 0);
             this.tableLayoutPanel2.Controls.Add(this.textBox_Warranty, 3, 1);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(5, 225);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(5, 249);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 2;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(454, 54);
             this.tableLayoutPanel2.TabIndex = 2;
+            this.tableLayoutPanel2.Visible = false;
             // 
             // label_Price
             // 
@@ -232,7 +234,7 @@
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 1;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(454, 212);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(454, 236);
             this.tableLayoutPanel4.TabIndex = 0;
             // 
             // tableLayoutPanel3
@@ -255,7 +257,7 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(292, 202);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(292, 226);
             this.tableLayoutPanel3.TabIndex = 3;
             // 
             // label_Description
@@ -264,7 +266,7 @@
             this.label_Description.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_Description.Location = new System.Drawing.Point(3, 53);
             this.label_Description.Name = "label_Description";
-            this.label_Description.Size = new System.Drawing.Size(80, 149);
+            this.label_Description.Size = new System.Drawing.Size(80, 173);
             this.label_Description.TabIndex = 4;
             this.label_Description.Text = "Description";
             // 
@@ -294,27 +296,27 @@
             this.textBox_Name.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox_Name.Location = new System.Drawing.Point(89, 3);
             this.textBox_Name.Name = "textBox_Name";
-            this.textBox_Name.ReadOnly = true;
             this.textBox_Name.Size = new System.Drawing.Size(200, 20);
             this.textBox_Name.TabIndex = 1;
             // 
             // comboBox_Catagory
             // 
+            this.comboBox_Catagory.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.comboBox_Catagory.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.comboBox_Catagory.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.comboBox_Catagory.Enabled = false;
             this.comboBox_Catagory.FormattingEnabled = true;
             this.comboBox_Catagory.Location = new System.Drawing.Point(89, 29);
             this.comboBox_Catagory.Name = "comboBox_Catagory";
             this.comboBox_Catagory.Size = new System.Drawing.Size(200, 21);
             this.comboBox_Catagory.TabIndex = 3;
+            this.comboBox_Catagory.SelectedIndexChanged += new System.EventHandler(this.comboBox_Catagory_SelectedIndexChanged);
             // 
             // richTextBox_Description
             // 
             this.richTextBox_Description.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBox_Description.Location = new System.Drawing.Point(89, 56);
             this.richTextBox_Description.Name = "richTextBox_Description";
-            this.richTextBox_Description.ReadOnly = true;
-            this.richTextBox_Description.Size = new System.Drawing.Size(200, 143);
+            this.richTextBox_Description.Size = new System.Drawing.Size(200, 167);
             this.richTextBox_Description.TabIndex = 5;
             this.richTextBox_Description.Text = "";
             // 
@@ -324,40 +326,17 @@
             this.tableLayoutPanel5.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.tableLayoutPanel5.ColumnCount = 1;
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel5.Controls.Add(this.progressBar_Rating, 0, 3);
-            this.tableLayoutPanel5.Controls.Add(this.label_Rating, 0, 2);
             this.tableLayoutPanel5.Controls.Add(this.tableLayoutPanel6, 0, 0);
+            this.tableLayoutPanel5.Controls.Add(this.tableLayoutPanel7, 0, 1);
             this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel5.Location = new System.Drawing.Point(305, 5);
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
-            this.tableLayoutPanel5.RowCount = 4;
+            this.tableLayoutPanel5.RowCount = 3;
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(144, 202);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(144, 226);
             this.tableLayoutPanel5.TabIndex = 4;
-            // 
-            // progressBar_Rating
-            // 
-            this.progressBar_Rating.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.progressBar_Rating.Location = new System.Drawing.Point(3, 181);
-            this.progressBar_Rating.Name = "progressBar_Rating";
-            this.progressBar_Rating.Size = new System.Drawing.Size(138, 18);
-            this.progressBar_Rating.Step = 1;
-            this.progressBar_Rating.TabIndex = 1;
-            this.progressBar_Rating.Value = 50;
-            // 
-            // label_Rating
-            // 
-            this.label_Rating.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label_Rating.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_Rating.Location = new System.Drawing.Point(3, 162);
-            this.label_Rating.Name = "label_Rating";
-            this.label_Rating.Size = new System.Drawing.Size(138, 16);
-            this.label_Rating.TabIndex = 2;
-            this.label_Rating.Text = "Rating";
-            this.label_Rating.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // tableLayoutPanel6
             // 
@@ -373,6 +352,7 @@
             this.tableLayoutPanel6.Name = "tableLayoutPanel6";
             this.tableLayoutPanel6.RowCount = 1;
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 143F));
             this.tableLayoutPanel6.Size = new System.Drawing.Size(138, 143);
             this.tableLayoutPanel6.TabIndex = 3;
             // 
@@ -388,20 +368,44 @@
             this.pictureBox_Picture.TabIndex = 0;
             this.pictureBox_Picture.TabStop = false;
             // 
-            // Seller_Home_Product_Open
+            // tableLayoutPanel7
+            // 
+            this.tableLayoutPanel7.ColumnCount = 3;
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel7.Controls.Add(this.button_Browse, 1, 0);
+            this.tableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel7.Location = new System.Drawing.Point(3, 152);
+            this.tableLayoutPanel7.Name = "tableLayoutPanel7";
+            this.tableLayoutPanel7.RowCount = 1;
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel7.Size = new System.Drawing.Size(138, 29);
+            this.tableLayoutPanel7.TabIndex = 5;
+            // 
+            // button_Browse
+            // 
+            this.button_Browse.Location = new System.Drawing.Point(31, 3);
+            this.button_Browse.Name = "button_Browse";
+            this.button_Browse.Size = new System.Drawing.Size(75, 23);
+            this.button_Browse.TabIndex = 4;
+            this.button_Browse.Text = "Browse";
+            this.button_Browse.UseVisualStyleBackColor = true;
+            this.button_Browse.Click += new System.EventHandler(this.button_Browse_Click);
+            // 
+            // Seller_Home_Product_Add
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(464, 321);
+            this.ClientSize = new System.Drawing.Size(464, 345);
             this.Controls.Add(this.tableLayoutPanel_Outer);
-            this.MinimumSize = new System.Drawing.Size(480, 360);
-            this.Name = "Seller_Home_Product_Open";
+            this.MinimumSize = new System.Drawing.Size(480, 384);
+            this.Name = "Seller_Home_Product_Add";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.Text = "Product Information";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Seller_Home_Product_Open_FormClosed);
-            this.Load += new System.EventHandler(this.Seller_Home_Product_Open_Load);
+            this.Load += new System.EventHandler(this.Seller_Home_Product_Add_Load);
             this.tableLayoutPanel_Outer.ResumeLayout(false);
             this.tableLayoutPanel_Outer.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -415,6 +419,7 @@
             this.tableLayoutPanel5.PerformLayout();
             this.tableLayoutPanel6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Picture)).EndInit();
+            this.tableLayoutPanel7.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -423,11 +428,8 @@
         #endregion
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel_Outer;
-        private System.Windows.Forms.Button button_AddToInventory;
+        private System.Windows.Forms.Button button_Main;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.Label label_Price;
-        private System.Windows.Forms.TextBox textBox_Quantity;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.Label label_Name;
@@ -436,16 +438,19 @@
         private System.Windows.Forms.ComboBox comboBox_Catagory;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
         private System.Windows.Forms.PictureBox pictureBox_Picture;
-        private System.Windows.Forms.ProgressBar progressBar_Rating;
-        private System.Windows.Forms.Label label_Rating;
         private System.Windows.Forms.Label label_Description;
         private System.Windows.Forms.RichTextBox richTextBox_Description;
-        private System.Windows.Forms.Label label_Warranty;
-        private System.Windows.Forms.Label label_Quantity;
-        private System.Windows.Forms.Label label_Pincode;
-        private System.Windows.Forms.TextBox textBox_Price;
-        private System.Windows.Forms.TextBox textBox_Warranty;
-        private System.Windows.Forms.ComboBox comboBox_Pincode;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel7;
+        private System.Windows.Forms.Button button_Browse;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.Label label_Price;
+        private System.Windows.Forms.Label label_Quantity;
+        private System.Windows.Forms.TextBox textBox_Quantity;
+        private System.Windows.Forms.TextBox textBox_Price;
+        private System.Windows.Forms.Label label_Pincode;
+        private System.Windows.Forms.Label label_Warranty;
+        private System.Windows.Forms.ComboBox comboBox_Pincode;
+        private System.Windows.Forms.TextBox textBox_Warranty;
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Data.Common;
 using System.Drawing;
 using System.IO;
@@ -133,7 +134,7 @@ namespace OPS
         // core methods
         public async static Task<Boolean> Register(Int32 catagory_id,
                                                    String name,
-                                                   Int32 description,
+                                                   String description,
                                                    Image image)  // For Registering New Product
         {
             try
@@ -166,7 +167,7 @@ namespace OPS
 
                 // Insert new record / Register in Product Table
                 MemoryStream memStream = new MemoryStream();
-                image.Save(memStream, System.Drawing.Imaging.ImageFormat.Jpeg);
+                image.Save(memStream, image.RawFormat);
                 sql = "INSERT INTO `product` " +
                       "(`catagory_id`, `name`, `description`, `image`) VALUES" +
                       "(@catagory_id, @name, @description, @image)";
@@ -174,7 +175,7 @@ namespace OPS
                 cmd.Parameters.AddWithValue("@catagory_id", catagory_id);
                 cmd.Parameters.AddWithValue("@name", name);
                 cmd.Parameters.AddWithValue("@description", description);
-                cmd.Parameters.AddWithValue("@image", Encoding.UTF8.GetString(memStream.ToArray()));
+                cmd.Parameters.AddWithValue("@image", memStream.GetBuffer());
                 await cmd.ExecuteNonQueryAsync();
                 cmd.Dispose();
                 CUtils.LastLogMsg = null;
@@ -216,7 +217,49 @@ namespace OPS
                                    (await reader.IsDBNullAsync(reader.GetOrdinal("raters"))) ? 0 : reader.GetInt32(reader.GetOrdinal("raters")),
                                    (await reader.IsDBNullAsync(reader.GetOrdinal("rating"))) ? 0 : reader.GetDouble(reader.GetOrdinal("rating")),
                                    (await reader.IsDBNullAsync(reader.GetOrdinal("quantity"))) ? 0 : reader.GetInt32(reader.GetOrdinal("quantity")),
-                                   Image.FromStream(reader.GetStream(reader.GetOrdinal("image"))));
+                                   (await reader.IsDBNullAsync(reader.GetOrdinal("image"))) ? global::OPS.Properties.Resources.noimage : CUtils.GetImageFromReader(reader, reader.GetOrdinal("image")));
+                if (!reader.IsClosed)
+                    reader.Close();
+                CUtils.LastLogMsg = null;
+            }
+            catch (Exception ex)
+            {
+#if DEBUG
+                Console.WriteLine(ex.Message + " " + ex.StackTrace);
+#endif
+                CUtils.LastLogMsg = "Unahandled Exception!";
+            }
+            return ret;
+        }
+
+        public async static Task<CProduct> Retrieve(Int32 catagory_id, String name)
+        {
+            CProduct ret = null;
+            try
+            {
+                String sql = "SELECT * FROM `product` WHERE `catagory_id` = @catagory_id and `name` = @name LIMIT 1";
+                MySqlCommand cmd = new MySqlCommand(sql, Program.conn);
+                cmd.Parameters.AddWithValue("@catagory_id", catagory_id);
+                cmd.Parameters.AddWithValue("@name", name);
+                DbDataReader reader = await cmd.ExecuteReaderAsync();
+                cmd.Dispose();
+                if (!(await reader.ReadAsync()))
+                {
+                    if (!reader.IsClosed)
+                        reader.Close();
+                    CUtils.LastLogMsg = "Product with catagory_id '" + catagory_id + "' and name '" + name + "' not found!";
+                    return ret;
+                }
+                ret = new CProduct(reader.GetInt32(reader.GetOrdinal("id")),
+                                   catagory_id,
+                                   name,
+                                   reader.GetString(reader.GetOrdinal("description")),
+                                   (await reader.IsDBNullAsync(reader.GetOrdinal("minprice"))) ? 0 : reader.GetDouble(reader.GetOrdinal("minprice")),
+                                   (await reader.IsDBNullAsync(reader.GetOrdinal("sales"))) ? 0 : reader.GetInt32(reader.GetOrdinal("sales")),
+                                   (await reader.IsDBNullAsync(reader.GetOrdinal("raters"))) ? 0 : reader.GetInt32(reader.GetOrdinal("raters")),
+                                   (await reader.IsDBNullAsync(reader.GetOrdinal("rating"))) ? 0 : reader.GetDouble(reader.GetOrdinal("rating")),
+                                   (await reader.IsDBNullAsync(reader.GetOrdinal("quantity"))) ? 0 : reader.GetInt32(reader.GetOrdinal("quantity")),
+                                   (await reader.IsDBNullAsync(reader.GetOrdinal("image"))) ? global::OPS.Properties.Resources.noimage : CUtils.GetImageFromReader(reader, reader.GetOrdinal("image")));
                 if (!reader.IsClosed)
                     reader.Close();
                 CUtils.LastLogMsg = null;

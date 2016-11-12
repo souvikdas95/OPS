@@ -68,7 +68,7 @@ namespace OPS
 
         private void button_Product_Add_Click(object sender, EventArgs e)
         {
-
+            new Seller_Home_Product_Add().Visible = true;
         }
 
         private void Seller_Home_FormClosed(object sender, FormClosedEventArgs e)
