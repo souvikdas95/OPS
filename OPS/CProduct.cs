@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace OPS
 {
-    class CProduct
+    public class CProduct
     {
         // data
         private Int32 _id;
@@ -263,13 +263,13 @@ namespace OPS
                 Boolean hasChange = false;
                 MySqlCommand cmd = new MySqlCommand();
                 cmd.Connection = Program.conn;
-                StringBuilder sql = new StringBuilder("UPDATE `catagory` SET ");
+                StringBuilder sql = new StringBuilder("UPDATE `product` SET ");
                 if (!(this._catagory_id == catagory_id))
                 {
                     hasChange = true;
                     sql.Append("`catagory_id` = @catagory_id");
                     cmd.Parameters.AddWithValue("@catagory_id", catagory_id);
-                    this._name = name;
+                    this._catagory_id = catagory_id;
                 }
                 if (!this._name.Equals(name))
                 {
@@ -408,7 +408,7 @@ namespace OPS
                                    (await reader.IsDBNullAsync(reader.GetOrdinal("raters"))) ? 0 : reader.GetInt32(reader.GetOrdinal("raters")),
                                    (await reader.IsDBNullAsync(reader.GetOrdinal("rating"))) ? 0.0 : reader.GetDouble(reader.GetOrdinal("rating")),
                                    (await reader.IsDBNullAsync(reader.GetOrdinal("quantity"))) ? 0 : reader.GetInt32(reader.GetOrdinal("quantity")),
-                                   (await reader.IsDBNullAsync(reader.GetOrdinal("image"))) ? global::OPS.Properties.Resources.noimage : Image.FromStream(reader.GetStream(reader.GetOrdinal("image"))))
+                                   (await reader.IsDBNullAsync(reader.GetOrdinal("image"))) ? global::OPS.Properties.Resources.noimage : CUtils.GetImageFromReader(reader, reader.GetOrdinal("image")))
                     );
                 }
                 if (!reader.IsClosed)

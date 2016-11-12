@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OPS
 {
-    class CCatagory
+    public class CCatagory
     {
         // data
         private Int32 _id;

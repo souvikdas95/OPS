@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace OPS
 {
-    class CSeller_Inventory
+    public class CSeller_Inventory
     {
         // data
         private Int32 _seller_id;

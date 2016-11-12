@@ -27,7 +27,7 @@ namespace OPS
 
         private async void Seller_Home_Load(object sender, EventArgs e)
         {
-             cat_list = await CCatagory.RetrieveCatagoryList(0);
+            cat_list = await CCatagory.RetrieveCatagoryList(0);
             comboBox_Product_Search.Items.AddRange(cat_list.ToArray());
             //comboBox_Product_Search.AutoCompleteSource = AutoCompleteSource.ListItems;
         }
@@ -134,6 +134,14 @@ namespace OPS
                 {
                     x.Visible = false;
                 }
+            }
+        }
+
+        private void button_Product_Open_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow x in dataGridView_Product.SelectedRows)
+            {
+                new Seller_Home_Product_Open((CProduct)x.DataBoundItem).Visible = true;
             }
         }
     }

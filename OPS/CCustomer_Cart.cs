@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OPS
 {
-    class CCustomer_Cart
+    public class CCustomer_Cart
     {
         // data
         private Int32 _customer_id;

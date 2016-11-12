@@ -7,6 +7,8 @@ using System.Text.RegularExpressions;
 using MySql.Data.MySqlClient;
 using System.Security.Cryptography;
 using System.Drawing;
+using System.IO;
+using System.Data.Common;
 
 namespace OPS
 {
@@ -166,6 +168,8 @@ namespace OPS
             LastLogMsg = null;
             try
             {
+                if (String.IsNullOrWhiteSpace(str))
+                    return false;
                 Double d = Double.Parse(str);
             }
             catch (Exception ex)    // non-mutant type
@@ -173,6 +177,27 @@ namespace OPS
                 return false;
             }
             return true;
+        }
+
+        public static Image GetImageFromReader(DbDataReader inputReader, Int32 ordinal)
+        {
+            Image ret = global::OPS.Properties.Resources.noimage;
+            try
+            {
+                Byte[] inputBuffer = new Byte[65535];
+                inputReader.GetBytes(ordinal, 0, inputBuffer, 0, inputBuffer.Length);
+                MemoryStream ms = new MemoryStream(inputBuffer);
+                ret = Image.FromStream(ms);
+            }
+            catch (Exception ex)
+            {
+#if DEBUG
+                Console.WriteLine(ex.Message + " " + ex.StackTrace);
+#endif
+                LastLogMsg = "Unhandled Exception!";
+                return null;
+            }
+            return ret;
         }
     }
 }

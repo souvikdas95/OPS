@@ -66,11 +66,19 @@
   <ItemGroup>
     <Compile Include="CCatagory.cs" />
     <Compile Include="CCustomer_Cart.cs" />
+    <Compile Include="CLocation.cs" />
+    <Compile Include="CProduct_Field.cs" />
     <Compile Include="CUser_Customer.cs" />
     <Compile Include="CProduct.cs" />
     <Compile Include="CSeller_Inventory.cs" />
     <Compile Include="CUser.cs" />
     <Compile Include="CUser_Seller.cs" />
+    <Compile Include="Seller_Home_Product_Open.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Seller_Home_Product_Open.Designer.cs">
+      <DependentUpon>Seller_Home_Product_Open.cs</DependentUpon>
+    </Compile>
     <Compile Include="CUtils.cs" />
     <Compile Include="Register.cs">
       <SubType>Form</SubType>
@@ -92,6 +100,9 @@
     <Compile Include="Seller_Home.Designer.cs">
       <DependentUpon>Seller_Home.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Seller_Home_Product_Open.resx">
+      <DependentUpon>Seller_Home_Product_Open.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Register.resx">
       <DependentUpon>Register.cs</DependentUpon>
     </EmbeddedResource>

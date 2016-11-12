@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace OPS
 {
-    class CUser
+    public class CUser
     {
         // data
         private Int32 _id;

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OPS
 {
-    class CUser_Customer
+    public class CUser_Customer
     {
         // data
         private Int32 _user_id;
