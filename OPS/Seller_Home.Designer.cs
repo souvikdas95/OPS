@@ -32,6 +32,9 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tabControl_MAIN = new System.Windows.Forms.TabControl();
             this.tabPage_Product = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel_Product_Outer = new System.Windows.Forms.TableLayoutPanel();
@@ -44,8 +47,12 @@
             this.button_Product_Search = new System.Windows.Forms.Button();
             this.dataGridView_Product = new System.Windows.Forms.DataGridView();
             this.tabPage_Orders = new System.Windows.Forms.TabPage();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.tabPage_Inventory = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel_Inventory_Outer = new System.Windows.Forms.TableLayoutPanel();
+            this.dataGridView_Inventory = new System.Windows.Forms.DataGridView();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.button_Inventory_Save = new System.Windows.Forms.Button();
+            this.button_Inventory_Delete = new System.Windows.Forms.Button();
             this.tabPage_Account = new System.Windows.Forms.TabPage();
             this.cProductBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl_MAIN.SuspendLayout();
@@ -54,7 +61,10 @@
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Product)).BeginInit();
-            this.tabPage_Orders.SuspendLayout();
+            this.tabPage_Inventory.SuspendLayout();
+            this.tableLayoutPanel_Inventory_Outer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Inventory)).BeginInit();
+            this.tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cProductBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -78,6 +88,7 @@
             this.tabControl_MAIN.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabControl_MAIN.TabIndex = 0;
             this.tabControl_MAIN.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabControl_MAIN_DrawItem);
+            this.tabControl_MAIN.SelectedIndexChanged += new System.EventHandler(this.tabControl_MAIN_SelectedIndexChanged);
             // 
             // tabPage_Product
             // 
@@ -249,7 +260,6 @@
             // 
             // tabPage_Orders
             // 
-            this.tabPage_Orders.Controls.Add(this.tableLayoutPanel3);
             this.tabPage_Orders.Location = new System.Drawing.Point(104, 4);
             this.tabPage_Orders.Name = "tabPage_Orders";
             this.tabPage_Orders.Padding = new System.Windows.Forms.Padding(3);
@@ -258,26 +268,113 @@
             this.tabPage_Orders.Text = "Orders";
             this.tabPage_Orders.UseVisualStyleBackColor = true;
             // 
-            // tableLayoutPanel3
-            // 
-            this.tableLayoutPanel3.ColumnCount = 1;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(98, 101);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.RowCount = 2;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(200, 100);
-            this.tableLayoutPanel3.TabIndex = 0;
-            // 
             // tabPage_Inventory
             // 
+            this.tabPage_Inventory.Controls.Add(this.tableLayoutPanel_Inventory_Outer);
             this.tabPage_Inventory.Location = new System.Drawing.Point(104, 4);
             this.tabPage_Inventory.Name = "tabPage_Inventory";
             this.tabPage_Inventory.Size = new System.Drawing.Size(476, 353);
             this.tabPage_Inventory.TabIndex = 2;
             this.tabPage_Inventory.Text = "Inventory";
             this.tabPage_Inventory.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel_Inventory_Outer
+            // 
+            this.tableLayoutPanel_Inventory_Outer.AutoSize = true;
+            this.tableLayoutPanel_Inventory_Outer.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tableLayoutPanel_Inventory_Outer.ColumnCount = 1;
+            this.tableLayoutPanel_Inventory_Outer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel_Inventory_Outer.Controls.Add(this.dataGridView_Inventory, 0, 0);
+            this.tableLayoutPanel_Inventory_Outer.Controls.Add(this.tableLayoutPanel3, 0, 1);
+            this.tableLayoutPanel_Inventory_Outer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel_Inventory_Outer.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel_Inventory_Outer.Name = "tableLayoutPanel_Inventory_Outer";
+            this.tableLayoutPanel_Inventory_Outer.RowCount = 2;
+            this.tableLayoutPanel_Inventory_Outer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel_Inventory_Outer.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel_Inventory_Outer.Size = new System.Drawing.Size(476, 353);
+            this.tableLayoutPanel_Inventory_Outer.TabIndex = 1;
+            // 
+            // dataGridView_Inventory
+            // 
+            this.dataGridView_Inventory.AllowUserToAddRows = false;
+            this.dataGridView_Inventory.AllowUserToDeleteRows = false;
+            this.dataGridView_Inventory.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView_Inventory.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            this.dataGridView_Inventory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView_Inventory.DefaultCellStyle = dataGridViewCellStyle5;
+            this.dataGridView_Inventory.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView_Inventory.Location = new System.Drawing.Point(3, 3);
+            this.dataGridView_Inventory.Name = "dataGridView_Inventory";
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView_Inventory.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            this.dataGridView_Inventory.RowHeadersWidth = 20;
+            this.dataGridView_Inventory.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.dataGridView_Inventory.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView_Inventory.ShowCellErrors = false;
+            this.dataGridView_Inventory.ShowCellToolTips = false;
+            this.dataGridView_Inventory.ShowEditingIcon = false;
+            this.dataGridView_Inventory.ShowRowErrors = false;
+            this.dataGridView_Inventory.Size = new System.Drawing.Size(470, 312);
+            this.dataGridView_Inventory.TabIndex = 3;
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.AutoSize = true;
+            this.tableLayoutPanel3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tableLayoutPanel3.ColumnCount = 3;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel3.Controls.Add(this.button_Inventory_Save, 2, 0);
+            this.tableLayoutPanel3.Controls.Add(this.button_Inventory_Delete, 1, 0);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 321);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 1;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(470, 29);
+            this.tableLayoutPanel3.TabIndex = 1;
+            // 
+            // button_Inventory_Save
+            // 
+            this.button_Inventory_Save.Location = new System.Drawing.Point(392, 3);
+            this.button_Inventory_Save.Name = "button_Inventory_Save";
+            this.button_Inventory_Save.Size = new System.Drawing.Size(75, 23);
+            this.button_Inventory_Save.TabIndex = 0;
+            this.button_Inventory_Save.Text = "Save";
+            this.button_Inventory_Save.UseVisualStyleBackColor = true;
+            this.button_Inventory_Save.Click += new System.EventHandler(this.button_Inventory_Save_Click);
+            // 
+            // button_Inventory_Delete
+            // 
+            this.button_Inventory_Delete.Location = new System.Drawing.Point(311, 3);
+            this.button_Inventory_Delete.Name = "button_Inventory_Delete";
+            this.button_Inventory_Delete.Size = new System.Drawing.Size(75, 23);
+            this.button_Inventory_Delete.TabIndex = 1;
+            this.button_Inventory_Delete.Text = "Delete";
+            this.button_Inventory_Delete.UseVisualStyleBackColor = true;
+            this.button_Inventory_Delete.Click += new System.EventHandler(this.button_Inventory_Delete_Click);
             // 
             // tabPage_Account
             // 
@@ -302,8 +399,8 @@
             this.Controls.Add(this.tabControl_MAIN);
             this.MinimumSize = new System.Drawing.Size(600, 400);
             this.Name = "Seller_Home";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "d";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Seller_Home_FormClosed);
             this.Load += new System.EventHandler(this.Seller_Home_Load);
             this.tabControl_MAIN.ResumeLayout(false);
@@ -313,7 +410,12 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Product)).EndInit();
-            this.tabPage_Orders.ResumeLayout(false);
+            this.tabPage_Inventory.ResumeLayout(false);
+            this.tabPage_Inventory.PerformLayout();
+            this.tableLayoutPanel_Inventory_Outer.ResumeLayout(false);
+            this.tableLayoutPanel_Inventory_Outer.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Inventory)).EndInit();
+            this.tableLayoutPanel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.cProductBindingSource)).EndInit();
             this.ResumeLayout(false);
 
@@ -336,6 +438,10 @@
         private System.Windows.Forms.DataGridView dataGridView_Product;
         private System.Windows.Forms.ComboBox comboBox_Product_Search;
         private System.Windows.Forms.BindingSource cProductBindingSource;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel_Inventory_Outer;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.Button button_Inventory_Save;
+        private System.Windows.Forms.Button button_Inventory_Delete;
+        private System.Windows.Forms.DataGridView dataGridView_Inventory;
     }
 }

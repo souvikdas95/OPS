@@ -70,6 +70,10 @@ namespace OPS
             {
                 return _password;
             }
+            set
+            {
+                _password = value;
+            }
         }
 
         public String email
@@ -78,6 +82,10 @@ namespace OPS
             {
                 return _email;
             }
+            set
+            {
+                _email = value;
+            }
         }
 
         public Byte type
@@ -85,6 +93,10 @@ namespace OPS
             get
             {
                 return _type;
+            }
+            set
+            {
+                _type = value;
             }
         }
 

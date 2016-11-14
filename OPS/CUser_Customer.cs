@@ -40,6 +40,10 @@ namespace OPS
             {
                 return _name;
             }
+            set
+            {
+                _name = value;
+            }
         }
 
         public DateTime dob
@@ -47,6 +51,10 @@ namespace OPS
             get
             {
                 return _dob;
+            }
+            set
+            {
+                _dob = value;
             }
         }
 

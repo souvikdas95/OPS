@@ -1,6 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data.Common;
 using System.IO;
 using System.Linq;
@@ -35,6 +36,16 @@ namespace OPS
             this._warranty = warranty;
         }
 
+        public CSeller_Inventory(CSeller_Inventory src)
+        {
+            this._seller_id = src.seller_id;
+            this._product_id = src.product_id;
+            this._price = src.price;
+            this._quantity = src.quantity;
+            this._pincode = src.pincode;
+            this._warranty = src.warranty;
+        }
+
         // GET; SET; properties (wrappers)
         public Int32 seller_id
         {
@@ -58,6 +69,10 @@ namespace OPS
             {
                 return _price;
             }
+            set
+            {
+                _price = value;
+            }
         }
 
         public Int32 quantity
@@ -65,6 +80,10 @@ namespace OPS
             get
             {
                 return _quantity;
+            }
+            set
+            {
+                _quantity = value;
             }
         }
 
@@ -74,6 +93,10 @@ namespace OPS
             {
                 return _pincode;
             }
+            set
+            {
+                _pincode = value;
+            }
         }
 
         public Double warranty
@@ -81,6 +104,10 @@ namespace OPS
             get
             {
                 return _warranty;
+            }
+            set
+            {
+                _warranty = value;
             }
         }
 
@@ -209,6 +236,7 @@ namespace OPS
                 MySqlCommand cmd = new MySqlCommand();
                 cmd.Connection = Program.conn;
                 StringBuilder sql = new StringBuilder("UPDATE `seller_inventory` SET ");
+                Console.WriteLine(sql);
                 if (!(this._price == price))
                 {
                     hasChange = true;
@@ -271,6 +299,43 @@ namespace OPS
                 return false;
             }
             return true;
+        }
+
+        // non-core methods
+        public async static Task<List<CSeller_Inventory>> RetrieveSellerInventoryList(Int32 seller_id)
+        {
+            List<CSeller_Inventory> ret = new List<CSeller_Inventory>();
+            try
+            {
+                String sql = "SELECT * FROM `seller_inventory` WHERE `seller_id` = @seller_id";
+                MySqlCommand cmd = new MySqlCommand(sql, Program.conn);
+                cmd.Parameters.AddWithValue("@seller_id", seller_id);
+                DbDataReader reader = await cmd.ExecuteReaderAsync();
+                cmd.Dispose();
+                while (await reader.ReadAsync())
+                {
+                    ret.Add
+                    (
+                        new CSeller_Inventory(seller_id,
+                                              reader.GetInt32(reader.GetOrdinal("product_id")),
+                                              reader.GetDouble(reader.GetOrdinal("price")),
+                                              reader.GetInt32(reader.GetOrdinal("quantity")),
+                                              reader.GetInt32(reader.GetOrdinal("pincode")),
+                                              reader.GetDouble(reader.GetOrdinal("warranty")))
+                    );
+                }
+                if (!reader.IsClosed)
+                    reader.Close();
+                CUtils.LastLogMsg = null;
+            }
+            catch (Exception ex)
+            {
+#if DEBUG
+                Console.WriteLine(ex.Message + " " + ex.StackTrace);
+#endif
+                CUtils.LastLogMsg = "Unahandled Exception!";
+            }
+            return ret;
         }
     }
 }

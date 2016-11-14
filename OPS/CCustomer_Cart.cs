@@ -59,6 +59,10 @@ namespace OPS
             {
                 return _quantity;
             }
+            set
+            {
+                _quantity = value;
+            }
         }
 
         // core methods

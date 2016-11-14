@@ -60,6 +60,10 @@ namespace OPS
             {
                 return _field_value;
             }
+            set
+            {
+                _field_value = value;
+            }
         }
 
         // core methods

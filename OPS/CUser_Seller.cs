@@ -46,6 +46,10 @@ namespace OPS
             {
                 return _name;
             }
+            set
+            {
+                _name = value;
+            }
         }
 
         public Int32 sales
@@ -53,6 +57,10 @@ namespace OPS
             get
             {
                 return _sales;
+            }
+            set
+            {
+                _sales = value;
             }
         }
 
@@ -62,6 +70,10 @@ namespace OPS
             {
                 return _raters;
             }
+            set
+            {
+                _raters = value;
+            }
         }
 
         public Double rating
@@ -69,6 +81,10 @@ namespace OPS
             get
             {
                 return _rating;
+            }
+            set
+            {
+                _rating = value;
             }
         }
 

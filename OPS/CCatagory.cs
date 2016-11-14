@@ -43,6 +43,10 @@ namespace OPS
             {
                 return _name;
             }
+            set
+            {
+                _name = value;
+            }
         }
 
         public String description
@@ -51,6 +55,10 @@ namespace OPS
             {
                 return _description;
             }
+            set
+            {
+                _description = value;
+            }
         }
 
         public Int32 parent_id
@@ -58,6 +66,10 @@ namespace OPS
             get
             {
                 return _parent_id;
+            }
+            set
+            {
+                _parent_id = value;
             }
         }
 

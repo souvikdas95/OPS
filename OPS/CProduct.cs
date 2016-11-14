@@ -65,6 +65,10 @@ namespace OPS
             {
                 return _catagory_id;
             }
+            set
+            {
+                _catagory_id = value;
+            }
         }
 
         public String name
@@ -73,6 +77,10 @@ namespace OPS
             {
                 return _name;
             }
+            set
+            {
+                _name = value;
+            }
         }
 
         public String description
@@ -80,6 +88,10 @@ namespace OPS
             get
             {
                 return _description;
+            }
+            set
+            {
+                _description = value;
             }
         }
 
@@ -128,6 +140,10 @@ namespace OPS
             get
             {
                 return _image;
+            }
+            set
+            {
+                _image = value;
             }
         }
 
@@ -419,9 +435,9 @@ namespace OPS
             return ret;
         }
 
-        public async static Task<BindingList<CProduct>> SearchProductBindingList(Int32 catagory_id, String keyword)
+        public async static Task<List<CProduct>> SearchProductList(Int32 catagory_id, String keyword)
         {
-            BindingList<CProduct> ret = new BindingList<CProduct>();
+            List<CProduct> ret = new List<CProduct>();
             try
             {
                 MySqlCommand cmd = new MySqlCommand();

@@ -16,6 +16,7 @@ namespace OPS
         // data
         private Form prev;
         private List<CCatagory> cat_list;
+        private List<CSeller_Inventory> inv_list;
 
         public Seller_Home(Form frame)
         {
@@ -30,6 +31,11 @@ namespace OPS
             cat_list = await CCatagory.RetrieveCatagoryList(0);
             comboBox_Product_Search.Items.AddRange(cat_list.ToArray());
             //comboBox_Product_Search.AutoCompleteSource = AutoCompleteSource.ListItems;
+
+            // Disable Form Auto Size Later
+            Size temp = this.Size;
+            this.AutoSize = false;
+            this.Size = temp;
         }
 
         private void tabControl_MAIN_DrawItem(object sender, DrawItemEventArgs e)
@@ -101,33 +107,38 @@ namespace OPS
         {
             String text = textBox_Product_Search.Text;
             CCatagory cat_obj = (CCatagory)comboBox_Product_Search.SelectedItem;
-            BindingList<CProduct> result = await CProduct.SearchProductBindingList(cat_obj.id, text);
-            dataGridView_Product.DataSource = new BindingSource(result, null);
+            List<CProduct> list = await CProduct.SearchProductList(cat_obj.id, text);
+            dataGridView_Product.DataSource = new BindingSource(list, null);
             foreach (DataGridViewColumn x in dataGridView_Product.Columns)
             {
-                if (x.Name.Equals("name"))
+                if (x.Name.Equals("id"))
                 {
                     x.DisplayIndex = 0;
+                    x.HeaderText = "ID";
+                }
+                else if (x.Name.Equals("name"))
+                {
+                    x.DisplayIndex = 1;
                     x.HeaderText = "Name";
                 }
                 else if (x.Name.Equals("minprice"))
                 {
-                    x.DisplayIndex = 1;
+                    x.DisplayIndex = 2;
                     x.HeaderText = "Price";
                 }
                 else if (x.Name.Equals("sales"))
                 {
-                    x.DisplayIndex = 2;
+                    x.DisplayIndex = 3;
                     x.HeaderText = "Sales";
                 }
                 else if (x.Name.Equals("rating"))
                 {
-                    x.DisplayIndex = 3;
+                    x.DisplayIndex = 4;
                     x.HeaderText = "Rating";
                 }
                 else if (x.Name.Equals("quantity"))
                 {
-                    x.DisplayIndex = 4;
+                    x.DisplayIndex = 5;
                     x.HeaderText = "Available";
                 }
                 else
@@ -142,6 +153,77 @@ namespace OPS
             foreach (DataGridViewRow x in dataGridView_Product.SelectedRows)
             {
                 new Seller_Home_Product_Open((CProduct)x.DataBoundItem).Visible = true;
+            }
+        }
+
+        private async void button_Inventory_Save_Click(object sender, EventArgs e)
+        {
+            CSeller_Inventory y = null;
+            foreach (DataGridViewRow x in dataGridView_Inventory.Rows)
+            {
+                y = ((CSeller_Inventory)x.DataBoundItem);
+                await inv_list[x.Index].Commit(y.price,
+                                               y.quantity,
+                                               y.pincode,
+                                               y.warranty);
+            }
+        }
+
+        private async void button_Inventory_Delete_Click(object sender, EventArgs e)
+        {
+            CSeller_Inventory y = null;
+            foreach (DataGridViewRow x in dataGridView_Inventory.Rows)
+            {
+                y = ((CSeller_Inventory)x.DataBoundItem);
+                await CSeller_Inventory.Remove(y.seller_id, y.product_id);
+                inv_list.RemoveAt(x.Index);
+                dataGridView_Inventory.Rows.Remove(x);
+            }
+        }
+
+        private async void tabControl_MAIN_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabControl_MAIN.SelectedTab.Text.Equals("Inventory"))
+            {
+                inv_list = await CSeller_Inventory.RetrieveSellerInventoryList(CUser.cur_user.id);
+                dataGridView_Inventory.DataSource = new BindingSource(inv_list.ConvertAll(inv => new CSeller_Inventory(inv)), null);
+                foreach (DataGridViewColumn x in dataGridView_Inventory.Columns)
+                {
+                    if (x.Name.Equals("product_id"))
+                    {
+                        x.DisplayIndex = 0;
+                        x.HeaderText = "ID";
+                        x.ReadOnly = true;
+                    }
+                    else if (x.Name.Equals("price"))
+                    {
+                        x.DisplayIndex = 1;
+                        x.HeaderText = "Price";
+                        x.ReadOnly = false;
+                    }
+                    else if (x.Name.Equals("quantity"))
+                    {
+                        x.DisplayIndex = 2;
+                        x.HeaderText = "Quantity";
+                        x.ReadOnly = false;
+                    }
+                    else if (x.Name.Equals("pincode"))
+                    {
+                        x.DisplayIndex = 3;
+                        x.HeaderText = "Pincode";
+                        x.ReadOnly = true;
+                    }
+                    else if (x.Name.Equals("warranty"))
+                    {
+                        x.DisplayIndex = 4;
+                        x.HeaderText = "Warranty";
+                        x.ReadOnly = false;
+                    }
+                    else
+                    {
+                        x.Visible = false;
+                    }
+                }
             }
         }
     }
