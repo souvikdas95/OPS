@@ -16,6 +16,14 @@ namespace OPS
         /// 
         public static MySqlConnection conn = null;
 
+        public static String szGoogleMapsAPI_key
+        {
+            get
+            {
+                return "AIzaSyCr9yTU0JEvh0KlU6pmBMVwjW1cWDzXfJ8";
+            }
+        }
+
         [STAThread]
         static void Main()
         {

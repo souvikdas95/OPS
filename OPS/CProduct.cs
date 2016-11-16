@@ -450,7 +450,8 @@ namespace OPS
                 }
                 else
                     sql += " WHERE (`catagory_id` = '0' OR `catagory_id` is NULL)";
-                sql += " AND `name` LIKE CONCAT('%', '" + keyword + "', '%')";
+                if(!String.IsNullOrWhiteSpace(keyword))
+                    sql += " AND `name` LIKE CONCAT('%', '" + keyword + "', '%')";
                 cmd.CommandText = sql;
                 DbDataReader reader = await cmd.ExecuteReaderAsync();
                 cmd.Dispose();

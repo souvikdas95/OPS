@@ -15,13 +15,13 @@ using GoogleMapsApi.Entities.DistanceMatrix.Response;
 
 namespace OPS
 {
-    public partial class Seller_Home : Form
+    public partial class Customer_Home : Form
     {
         // data
         private Form prev;
         private List<CCatagory> cat_list;
 
-        public Seller_Home(Form frame)
+        public Customer_Home(Form frame)
         {
             prev = frame;
             this.Location = prev.Location;
@@ -29,27 +29,31 @@ namespace OPS
             InitializeComponent();
         }
 
-        private async void Seller_Home_Load(object sender, EventArgs e)
+        private async void Customer_Home_Load(object sender, EventArgs e)
         {
             cat_list = await CCatagory.RetrieveCatagoryList(0);
             comboBox_Product_Search.Items.AddRange(cat_list.ToArray());
             //comboBox_Product_Search.AutoCompleteSource = AutoCompleteSource.ListItems;
 
-            // Inventory Table Layout
-            dataGridView_Inventory.Columns.Add("product_id", "Product ID");
-            dataGridView_Inventory.Columns["product_id"].ReadOnly = true;
-            dataGridView_Inventory.Columns.Add("product_name", "Product Name");
-            dataGridView_Inventory.Columns["product_name"].ReadOnly = true;
-            dataGridView_Inventory.Columns.Add("price", "Price");
-            dataGridView_Inventory.Columns.Add("quantity", "Quantity");
-            dataGridView_Inventory.Columns.Add("pincode", "Pincode");
-            dataGridView_Inventory.Columns["pincode"].ReadOnly = true;
-            dataGridView_Inventory.Columns.Add("warranty", "Warranty");
+            // Cart Table Layout
+            dataGridView_Cart.Columns.Add("product_name", "Product Name");
+            dataGridView_Cart.Columns["product_name"].ReadOnly = true;
+            dataGridView_Cart.Columns.Add("seller_name", "Seller Name");
+            dataGridView_Cart.Columns["seller_name"].ReadOnly = true;
+            dataGridView_Cart.Columns.Add("price", "Price");
+            dataGridView_Cart.Columns["price"].ReadOnly = true;
+            dataGridView_Cart.Columns.Add("quantity", "Quantity");
+            dataGridView_Cart.Columns.Add("warranty", "Warranty");
+            dataGridView_Cart.Columns["warranty"].ReadOnly = true;
             // Invisible Containers inside Data Grid
-            dataGridView_Inventory.Columns.Add("extra_1", "extra_1");
-            dataGridView_Inventory.Columns.Add("extra_2", "extra_2");
-            dataGridView_Inventory.Columns["extra_1"].Visible = false;
-            dataGridView_Inventory.Columns["extra_2"].Visible = false;
+            dataGridView_Cart.Columns.Add("extra_1", "extra_1");
+            dataGridView_Cart.Columns.Add("extra_2", "extra_2");
+            dataGridView_Cart.Columns.Add("extra_3", "extra_3");
+            dataGridView_Cart.Columns.Add("extra_4", "extra_4");
+            dataGridView_Cart.Columns["extra_1"].Visible = false;
+            dataGridView_Cart.Columns["extra_2"].Visible = false;
+            dataGridView_Cart.Columns["extra_3"].Visible = false;
+            dataGridView_Cart.Columns["extra_4"].Visible = false;
 
             // Order Table Layout
             dataGridView_Orders.Columns.Add("order_id", "Order ID");
@@ -110,12 +114,7 @@ namespace OPS
             g.DrawString(_tabPage.Text, _textFont, _textBrush, _tabBounds, new StringFormat(_stringFlags));
         }
 
-        private void button_Product_Add_Click(object sender, EventArgs e)
-        {
-            new Seller_Home_Product_Add().Visible = true;
-        }
-
-        private void Seller_Home_FormClosed(object sender, FormClosedEventArgs e)
+        private void Customer_Home_FormClosed(object sender, FormClosedEventArgs e)
         {
             Environment.Exit(0);
         }
@@ -193,49 +192,67 @@ namespace OPS
         {
             foreach (DataGridViewRow x in dataGridView_Product.SelectedRows)
             {
-                new Seller_Home_Product_Open((CProduct)x.DataBoundItem).Visible = true;
+                new Customer_Home_Product_Open((CProduct)x.DataBoundItem).Visible = true;
             }
         }
 
-        private async void button_Inventory_Delete_Click(object sender, EventArgs e)
+        private void button_Cart_Checkout_Click(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow x in dataGridView_Inventory.Rows)
+            List<CCustomer_Cart> temp = new List<CCustomer_Cart>();
+            foreach(DataGridViewRow x in dataGridView_Cart.Rows)
             {
-                CSeller_Inventory y = (CSeller_Inventory)(x.Cells["extra_1"].Value);
-                await CSeller_Inventory.Remove(y.seller_id, y.product_id);
-                dataGridView_Inventory.Rows.Remove(x);
+                CCustomer_Cart y = (CCustomer_Cart)(x.Cells["extra_1"].Value);
+                temp.Add(y);
+            }
+            new Checkout(temp, this, Double.Parse(textBox_Cart_GrandTotal.Text)).Visible = true;
+            this.Visible = false;
+        }
+
+        private async void button_Cart_Delete_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow x in dataGridView_Cart.Rows)
+            {
+                CCustomer_Cart y = (CCustomer_Cart)(x.Cells["extra_1"].Value);
+                await CCustomer_Cart.Remove(y.customer_id, y.product_id, y.seller_id);
+                dataGridView_Cart.Rows.Remove(x);
             }
         }
 
         private async void tabControl_MAIN_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (tabControl_MAIN.SelectedTab.Text.Equals("Inventory"))
+            if (tabControl_MAIN.SelectedTab.Text.Equals("Cart"))
             {
-                dataGridView_Inventory.Rows.Clear();
-                List<CSeller_Inventory> inv_list = await CSeller_Inventory.RetrieveSellerInventoryList(CUser.cur_user.id);
-                foreach (CSeller_Inventory x in inv_list)
+                dataGridView_Cart.Rows.Clear();
+                Double total = 0;
+                List<CCustomer_Cart> cart_list = await CCustomer_Cart.RetrieveCustomerCartList(CUser.cur_user.id);
+                foreach(CCustomer_Cart x in cart_list)
                 {
                     CProduct y = await CProduct.Retrieve(x.product_id);
-                    dataGridView_Inventory.Rows.Add
+                    CUser_Seller z = await CUser_Seller.Retrieve(x.seller_id);
+                    CSeller_Inventory yz = await CSeller_Inventory.Retrieve(z.user_id, y.id);
+                    dataGridView_Cart.Rows.Add
                     (
                         new object[]
                         {
-                            x.product_id,
                             y.name,
-                            x.price,
+                            z.name,
+                            yz.price,
                             x.quantity,
-                            x.pincode,
-                            x.warranty,
+                            yz.warranty,
                             x,
-                            y
+                            y,
+                            z,
+                            yz
                         }
                     );
+                    total += yz.price * x.quantity;
                 }
+                textBox_Cart_GrandTotal.Text = total.ToString();
             }
             else if (tabControl_MAIN.SelectedTab.Text.Equals("Orders"))
             {
                 dataGridView_Orders.Rows.Clear();
-                List<COrder> order_list = await COrder.RetrieveOrdertBySellerID(CUser.cur_user.id);
+                List<COrder> order_list = await COrder.RetrieveOrdertByCustomerID(CUser.cur_user.id);
                 DistanceMatrixRequest req = new DistanceMatrixRequest();
                 req.ApiKey = Program.szGoogleMapsAPI_key;
                 req.Mode = DistanceMatrixTravelModes.driving;
@@ -274,16 +291,17 @@ namespace OPS
             }
         }
 
-        private async void button_Inventory_Save_Click(object sender, EventArgs e)
+        private async void button_Cart_Save_Click(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow x in dataGridView_Inventory.Rows)
+            Double total = 0;
+            foreach (DataGridViewRow x in dataGridView_Cart.Rows)
             {
-                CSeller_Inventory y = (CSeller_Inventory)(x.Cells["extra_1"].Value);
-                await y.Commit(Double.Parse(x.Cells["price"].Value.ToString()),
-                               Int32.Parse(x.Cells["quantity"].Value.ToString()),
-                               Int32.Parse(x.Cells["pincode"].Value.ToString()),
-                               Double.Parse(x.Cells["warranty"].Value.ToString()));
+                CCustomer_Cart y = (CCustomer_Cart)(x.Cells["extra_1"].Value);
+                await y.Commit(Int32.Parse(x.Cells["quantity"].Value.ToString()));
+                CSeller_Inventory z = (CSeller_Inventory)(x.Cells["extra_4"].Value);
+                total += z.price * y.quantity;
             }
+            textBox_Cart_GrandTotal.Text = total.ToString();
         }
 
         private void button_Logout_Click(object sender, EventArgs e)

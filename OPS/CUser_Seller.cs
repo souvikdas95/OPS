@@ -198,5 +198,11 @@ namespace OPS
             }
             return true;
         }
+
+        // util methods
+        public override string ToString()
+        {
+            return _name;
+        }
     }
 }

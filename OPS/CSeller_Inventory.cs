@@ -151,7 +151,27 @@ namespace OPS
                 cmd.Parameters.AddWithValue("@warranty", warranty);
                 await cmd.ExecuteNonQueryAsync();
                 cmd.Dispose();
-                CUtils.LastLogMsg = null; 
+
+                // Update Quantity in Product
+                MySqlCommand tempcmd = new MySqlCommand();
+                tempcmd.Connection = Program.conn;
+                tempcmd.CommandText = "UPDATE `product` SET quantity = quantity + @quantity WHERE id = @product_id";
+                tempcmd.Parameters.AddWithValue("@quantity", quantity);
+                tempcmd.Parameters.AddWithValue("@product_id", product_id);
+                await tempcmd.ExecuteNonQueryAsync();
+                tempcmd.Dispose();
+
+                // Execute Procedure to Calculate Minprice
+                tempcmd = new MySqlCommand();
+                tempcmd.Connection = Program.conn;
+                tempcmd.CommandText = "proc_UpdateMinPrice";
+                tempcmd.CommandType = System.Data.CommandType.StoredProcedure;
+                tempcmd.Parameters.AddWithValue("@p_product_id", product_id);
+                tempcmd.Parameters["@p_product_id"].Direction = System.Data.ParameterDirection.Input;
+                await tempcmd.ExecuteNonQueryAsync();
+                tempcmd.Dispose();
+
+                CUtils.LastLogMsg = null;
             }
             catch (Exception ex)
             {
@@ -206,12 +226,34 @@ namespace OPS
         {
             try
             {
+                // Update Quantity in Product
+                MySqlCommand tempcmd = new MySqlCommand();
+                tempcmd.Connection = Program.conn;
+                tempcmd.CommandText = "UPDATE `product` SET quantity = quantity - (SELECT quantity FROM `seller_inventory` WHERE seller_id = @seller_id AND product_id = @product_id LIMIT 1) WHERE id = @product_id2";
+                tempcmd.Parameters.AddWithValue("@seller_id", seller_id);
+                tempcmd.Parameters.AddWithValue("@product_id", product_id);
+                tempcmd.Parameters.AddWithValue("@product_id2", product_id);
+                await tempcmd.ExecuteNonQueryAsync();
+                tempcmd.Dispose();
+
+                // Execute Procedure to Calculate Minprice
+                tempcmd = new MySqlCommand();
+                tempcmd.Connection = Program.conn;
+                tempcmd.CommandText = "proc_UpdateMinPrice";
+                tempcmd.CommandType = System.Data.CommandType.StoredProcedure;
+                tempcmd.Parameters.AddWithValue("@p_product_id", product_id);
+                tempcmd.Parameters["@p_product_id"].Direction = System.Data.ParameterDirection.Input;
+                await tempcmd.ExecuteNonQueryAsync();
+                tempcmd.Dispose();
+
+                // Now Delete
                 String sql = "DELETE FROM `seller_inventory` WHERE `seller_id` = @seller_id and `product_id` = @product_id";
                 MySqlCommand cmd = new MySqlCommand(sql, Program.conn);
                 cmd.Parameters.AddWithValue("@seller_id", seller_id);
                 cmd.Parameters.AddWithValue("@product_id", product_id);
                 await cmd.ExecuteNonQueryAsync();
                 cmd.Dispose();
+
                 CUtils.LastLogMsg = null;
             }
             catch (Exception ex)
@@ -236,13 +278,22 @@ namespace OPS
                 MySqlCommand cmd = new MySqlCommand();
                 cmd.Connection = Program.conn;
                 StringBuilder sql = new StringBuilder("UPDATE `seller_inventory` SET ");
-                Console.WriteLine(sql);
                 if (!(this._price == price))
                 {
                     hasChange = true;
                     sql.Append("`price` = @price");
                     cmd.Parameters.AddWithValue("@price", price);
                     this._price = price;
+
+                    // Execute Procedure to Calculate Minprice
+                    MySqlCommand tempcmd = new MySqlCommand();
+                    tempcmd.Connection = Program.conn;
+                    tempcmd.CommandText = "proc_UpdateMinPrice";
+                    tempcmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    tempcmd.Parameters.AddWithValue("@p_product_id", this._product_id);
+                    tempcmd.Parameters["@p_product_id"].Direction = System.Data.ParameterDirection.Input;
+                    await tempcmd.ExecuteNonQueryAsync();
+                    tempcmd.Dispose();
                 }
                 if (!(this._quantity == quantity))
                 {
@@ -252,6 +303,17 @@ namespace OPS
                         hasChange = true;
                     sql.Append("`quantity` = @quantity");
                     cmd.Parameters.AddWithValue("@quantity", quantity);
+
+                    // Maintain Sanity of Quantity in Product
+                    MySqlCommand tempcmd = new MySqlCommand();
+                    tempcmd.Connection = Program.conn;
+                    tempcmd.CommandText = "UPDATE `product` SET quantity = quantity + @quantity WHERE id = @product_id";
+                    tempcmd.Parameters.AddWithValue("@quantity", quantity - this._quantity); // NEW - OLD
+                    tempcmd.Parameters.AddWithValue("@product_id", this._product_id);
+                    await tempcmd.ExecuteNonQueryAsync();
+                    tempcmd.Dispose();
+
+                    // Now Update New Quantity in code
                     this._quantity = quantity;
                 }
                 if (!(this._pincode == pincode))
@@ -318,6 +380,42 @@ namespace OPS
                     (
                         new CSeller_Inventory(seller_id,
                                               reader.GetInt32(reader.GetOrdinal("product_id")),
+                                              reader.GetDouble(reader.GetOrdinal("price")),
+                                              reader.GetInt32(reader.GetOrdinal("quantity")),
+                                              reader.GetInt32(reader.GetOrdinal("pincode")),
+                                              reader.GetDouble(reader.GetOrdinal("warranty")))
+                    );
+                }
+                if (!reader.IsClosed)
+                    reader.Close();
+                CUtils.LastLogMsg = null;
+            }
+            catch (Exception ex)
+            {
+#if DEBUG
+                Console.WriteLine(ex.Message + " " + ex.StackTrace);
+#endif
+                CUtils.LastLogMsg = "Unahandled Exception!";
+            }
+            return ret;
+        }
+
+        public async static Task<List<CSeller_Inventory>> RetrieveSellerInventoryListByProduct(Int32 product_id)
+        {
+            List<CSeller_Inventory> ret = new List<CSeller_Inventory>();
+            try
+            {
+                String sql = "SELECT * FROM `seller_inventory` WHERE `product_id` = @product_id";
+                MySqlCommand cmd = new MySqlCommand(sql, Program.conn);
+                cmd.Parameters.AddWithValue("@product_id", product_id);
+                DbDataReader reader = await cmd.ExecuteReaderAsync();
+                cmd.Dispose();
+                while (await reader.ReadAsync())
+                {
+                    ret.Add
+                    (
+                        new CSeller_Inventory(reader.GetInt32(reader.GetOrdinal("seller_id")),
+                                              product_id,
                                               reader.GetDouble(reader.GetOrdinal("price")),
                                               reader.GetInt32(reader.GetOrdinal("quantity")),
                                               reader.GetInt32(reader.GetOrdinal("pincode")),

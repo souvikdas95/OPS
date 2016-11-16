@@ -89,7 +89,7 @@ namespace OPS
             MessageBox.Show("You have Successfully Logged In!" + type, "Success!", MessageBoxButtons.OK, MessageBoxIcon.Information);
             switch(type)
             {
-                //case 0: new Customer_Home(this).Visible = true; break;
+                case 0: new Customer_Home(this).Visible = true; break;
                 case 1: new Seller_Home(this).Visible = true; break;
                 //case 2: new OrderManager_Home(this).Visible = true; break;
                 //case 3: new ProductManager_Home(this).Visible = true; break;

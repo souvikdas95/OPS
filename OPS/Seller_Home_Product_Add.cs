@@ -199,6 +199,7 @@ namespace OPS
                     MessageBox.Show("Invalid Warranty!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
+                Console.WriteLine("QUAT=" + Int32.Parse(textBox_Quantity.Text));
                 if (!(await CSeller_Inventory.Register(CUser.cur_user.id,
                                                  item.id,
                                                  Double.Parse(textBox_Price.Text),

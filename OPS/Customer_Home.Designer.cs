@@ -1,6 +1,6 @@
 ﻿namespace OPS
 {
-    partial class Seller_Home
+    partial class Customer_Home
     {
         /// <summary>
         /// Required designer variable.
@@ -42,7 +42,6 @@
             this.tabPage_Product = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel_Product_Outer = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.button_Product_Add = new System.Windows.Forms.Button();
             this.button_Product_Open = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.textBox_Product_Search = new System.Windows.Forms.TextBox();
@@ -50,12 +49,15 @@
             this.button_Product_Search = new System.Windows.Forms.Button();
             this.dataGridView_Product = new System.Windows.Forms.DataGridView();
             this.tabPage_Orders = new System.Windows.Forms.TabPage();
-            this.tabPage_Inventory = new System.Windows.Forms.TabPage();
-            this.tableLayoutPanel_Inventory_Outer = new System.Windows.Forms.TableLayoutPanel();
-            this.dataGridView_Inventory = new System.Windows.Forms.DataGridView();
+            this.tabPage_Cart = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel_Cart_Outer = new System.Windows.Forms.TableLayoutPanel();
+            this.dataGridView_Cart = new System.Windows.Forms.DataGridView();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.button_Inventory_Save = new System.Windows.Forms.Button();
-            this.button_Inventory_Delete = new System.Windows.Forms.Button();
+            this.button_Cart_Delete = new System.Windows.Forms.Button();
+            this.button_Cart_Checkout = new System.Windows.Forms.Button();
+            this.textBox_Cart_GrandTotal = new System.Windows.Forms.TextBox();
+            this.label_Cart_GrandTotal = new System.Windows.Forms.Label();
+            this.button_Cart_Save = new System.Windows.Forms.Button();
             this.tabPage_Account = new System.Windows.Forms.TabPage();
             this.dataGridView_Orders = new System.Windows.Forms.DataGridView();
             this.button_Logout = new System.Windows.Forms.Button();
@@ -67,9 +69,9 @@
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Product)).BeginInit();
             this.tabPage_Orders.SuspendLayout();
-            this.tabPage_Inventory.SuspendLayout();
-            this.tableLayoutPanel_Inventory_Outer.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Inventory)).BeginInit();
+            this.tabPage_Cart.SuspendLayout();
+            this.tableLayoutPanel_Cart_Outer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Cart)).BeginInit();
             this.tableLayoutPanel3.SuspendLayout();
             this.tabPage_Account.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Orders)).BeginInit();
@@ -82,7 +84,7 @@
             this.tabControl_MAIN.CausesValidation = false;
             this.tabControl_MAIN.Controls.Add(this.tabPage_Product);
             this.tabControl_MAIN.Controls.Add(this.tabPage_Orders);
-            this.tabControl_MAIN.Controls.Add(this.tabPage_Inventory);
+            this.tabControl_MAIN.Controls.Add(this.tabPage_Cart);
             this.tabControl_MAIN.Controls.Add(this.tabPage_Account);
             this.tabControl_MAIN.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl_MAIN.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
@@ -129,13 +131,12 @@
             // 
             // tableLayoutPanel2
             // 
-            this.tableLayoutPanel2.ColumnCount = 4;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 8F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel2.Controls.Add(this.button_Product_Add, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.button_Product_Open, 3, 0);
+            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.Controls.Add(this.button_Product_Open, 1, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 315);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -144,23 +145,12 @@
             this.tableLayoutPanel2.Size = new System.Drawing.Size(464, 29);
             this.tableLayoutPanel2.TabIndex = 4;
             // 
-            // button_Product_Add
-            // 
-            this.button_Product_Add.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_Product_Add.Location = new System.Drawing.Point(276, 3);
-            this.button_Product_Add.Name = "button_Product_Add";
-            this.button_Product_Add.Size = new System.Drawing.Size(85, 23);
-            this.button_Product_Add.TabIndex = 1;
-            this.button_Product_Add.Text = "Add";
-            this.button_Product_Add.UseVisualStyleBackColor = true;
-            this.button_Product_Add.Click += new System.EventHandler(this.button_Product_Add_Click);
-            // 
             // button_Product_Open
             // 
-            this.button_Product_Open.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_Product_Open.Location = new System.Drawing.Point(375, 3);
+            this.button_Product_Open.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button_Product_Open.Location = new System.Drawing.Point(418, 3);
             this.button_Product_Open.Name = "button_Product_Open";
-            this.button_Product_Open.Size = new System.Drawing.Size(86, 23);
+            this.button_Product_Open.Size = new System.Drawing.Size(43, 23);
             this.button_Product_Open.TabIndex = 0;
             this.button_Product_Open.Text = "Open";
             this.button_Product_Open.UseVisualStyleBackColor = true;
@@ -277,38 +267,38 @@
             this.tabPage_Orders.Text = "Orders";
             this.tabPage_Orders.UseVisualStyleBackColor = true;
             // 
-            // tabPage_Inventory
+            // tabPage_Cart
             // 
-            this.tabPage_Inventory.Controls.Add(this.tableLayoutPanel_Inventory_Outer);
-            this.tabPage_Inventory.Location = new System.Drawing.Point(104, 4);
-            this.tabPage_Inventory.Name = "tabPage_Inventory";
-            this.tabPage_Inventory.Size = new System.Drawing.Size(476, 353);
-            this.tabPage_Inventory.TabIndex = 2;
-            this.tabPage_Inventory.Text = "Inventory";
-            this.tabPage_Inventory.UseVisualStyleBackColor = true;
+            this.tabPage_Cart.Controls.Add(this.tableLayoutPanel_Cart_Outer);
+            this.tabPage_Cart.Location = new System.Drawing.Point(104, 4);
+            this.tabPage_Cart.Name = "tabPage_Cart";
+            this.tabPage_Cart.Size = new System.Drawing.Size(476, 353);
+            this.tabPage_Cart.TabIndex = 2;
+            this.tabPage_Cart.Text = "Cart";
+            this.tabPage_Cart.UseVisualStyleBackColor = true;
             // 
-            // tableLayoutPanel_Inventory_Outer
+            // tableLayoutPanel_Cart_Outer
             // 
-            this.tableLayoutPanel_Inventory_Outer.AutoSize = true;
-            this.tableLayoutPanel_Inventory_Outer.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.tableLayoutPanel_Inventory_Outer.ColumnCount = 1;
-            this.tableLayoutPanel_Inventory_Outer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_Inventory_Outer.Controls.Add(this.dataGridView_Inventory, 0, 0);
-            this.tableLayoutPanel_Inventory_Outer.Controls.Add(this.tableLayoutPanel3, 0, 1);
-            this.tableLayoutPanel_Inventory_Outer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel_Inventory_Outer.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel_Inventory_Outer.Name = "tableLayoutPanel_Inventory_Outer";
-            this.tableLayoutPanel_Inventory_Outer.RowCount = 2;
-            this.tableLayoutPanel_Inventory_Outer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_Inventory_Outer.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel_Inventory_Outer.Size = new System.Drawing.Size(476, 353);
-            this.tableLayoutPanel_Inventory_Outer.TabIndex = 1;
+            this.tableLayoutPanel_Cart_Outer.AutoSize = true;
+            this.tableLayoutPanel_Cart_Outer.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tableLayoutPanel_Cart_Outer.ColumnCount = 1;
+            this.tableLayoutPanel_Cart_Outer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel_Cart_Outer.Controls.Add(this.dataGridView_Cart, 0, 0);
+            this.tableLayoutPanel_Cart_Outer.Controls.Add(this.tableLayoutPanel3, 0, 1);
+            this.tableLayoutPanel_Cart_Outer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel_Cart_Outer.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel_Cart_Outer.Name = "tableLayoutPanel_Cart_Outer";
+            this.tableLayoutPanel_Cart_Outer.RowCount = 2;
+            this.tableLayoutPanel_Cart_Outer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel_Cart_Outer.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel_Cart_Outer.Size = new System.Drawing.Size(476, 353);
+            this.tableLayoutPanel_Cart_Outer.TabIndex = 1;
             // 
-            // dataGridView_Inventory
+            // dataGridView_Cart
             // 
-            this.dataGridView_Inventory.AllowUserToAddRows = false;
-            this.dataGridView_Inventory.AllowUserToDeleteRows = false;
-            this.dataGridView_Inventory.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView_Cart.AllowUserToAddRows = false;
+            this.dataGridView_Cart.AllowUserToDeleteRows = false;
+            this.dataGridView_Cart.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -316,8 +306,8 @@
             dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView_Inventory.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
-            this.dataGridView_Inventory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_Cart.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            this.dataGridView_Cart.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -325,10 +315,10 @@
             dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView_Inventory.DefaultCellStyle = dataGridViewCellStyle8;
-            this.dataGridView_Inventory.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView_Inventory.Location = new System.Drawing.Point(3, 3);
-            this.dataGridView_Inventory.Name = "dataGridView_Inventory";
+            this.dataGridView_Cart.DefaultCellStyle = dataGridViewCellStyle8;
+            this.dataGridView_Cart.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView_Cart.Location = new System.Drawing.Point(3, 3);
+            this.dataGridView_Cart.Name = "dataGridView_Cart";
             dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -336,27 +326,33 @@
             dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView_Inventory.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
-            this.dataGridView_Inventory.RowHeadersWidth = 20;
-            this.dataGridView_Inventory.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.dataGridView_Inventory.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView_Inventory.ShowCellErrors = false;
-            this.dataGridView_Inventory.ShowCellToolTips = false;
-            this.dataGridView_Inventory.ShowEditingIcon = false;
-            this.dataGridView_Inventory.ShowRowErrors = false;
-            this.dataGridView_Inventory.Size = new System.Drawing.Size(470, 312);
-            this.dataGridView_Inventory.TabIndex = 3;
+            this.dataGridView_Cart.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            this.dataGridView_Cart.RowHeadersWidth = 20;
+            this.dataGridView_Cart.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.dataGridView_Cart.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView_Cart.ShowCellErrors = false;
+            this.dataGridView_Cart.ShowCellToolTips = false;
+            this.dataGridView_Cart.ShowEditingIcon = false;
+            this.dataGridView_Cart.ShowRowErrors = false;
+            this.dataGridView_Cart.Size = new System.Drawing.Size(470, 312);
+            this.dataGridView_Cart.TabIndex = 3;
             // 
             // tableLayoutPanel3
             // 
             this.tableLayoutPanel3.AutoSize = true;
             this.tableLayoutPanel3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.tableLayoutPanel3.ColumnCount = 3;
+            this.tableLayoutPanel3.ColumnCount = 6;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel3.Controls.Add(this.button_Inventory_Save, 2, 0);
-            this.tableLayoutPanel3.Controls.Add(this.button_Inventory_Delete, 1, 0);
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel3.Controls.Add(this.button_Cart_Delete, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.button_Cart_Checkout, 5, 0);
+            this.tableLayoutPanel3.Controls.Add(this.textBox_Cart_GrandTotal, 4, 0);
+            this.tableLayoutPanel3.Controls.Add(this.label_Cart_GrandTotal, 3, 0);
+            this.tableLayoutPanel3.Controls.Add(this.button_Cart_Save, 1, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 321);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
@@ -365,25 +361,59 @@
             this.tableLayoutPanel3.Size = new System.Drawing.Size(470, 29);
             this.tableLayoutPanel3.TabIndex = 1;
             // 
-            // button_Inventory_Save
+            // button_Cart_Delete
             // 
-            this.button_Inventory_Save.Location = new System.Drawing.Point(392, 3);
-            this.button_Inventory_Save.Name = "button_Inventory_Save";
-            this.button_Inventory_Save.Size = new System.Drawing.Size(75, 23);
-            this.button_Inventory_Save.TabIndex = 0;
-            this.button_Inventory_Save.Text = "Save";
-            this.button_Inventory_Save.UseVisualStyleBackColor = true;
-            this.button_Inventory_Save.Click += new System.EventHandler(this.button_Inventory_Save_Click);
+            this.button_Cart_Delete.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button_Cart_Delete.Location = new System.Drawing.Point(3, 3);
+            this.button_Cart_Delete.Name = "button_Cart_Delete";
+            this.button_Cart_Delete.Size = new System.Drawing.Size(48, 23);
+            this.button_Cart_Delete.TabIndex = 1;
+            this.button_Cart_Delete.Text = "Delete";
+            this.button_Cart_Delete.UseVisualStyleBackColor = true;
+            this.button_Cart_Delete.Click += new System.EventHandler(this.button_Cart_Delete_Click);
             // 
-            // button_Inventory_Delete
+            // button_Cart_Checkout
             // 
-            this.button_Inventory_Delete.Location = new System.Drawing.Point(311, 3);
-            this.button_Inventory_Delete.Name = "button_Inventory_Delete";
-            this.button_Inventory_Delete.Size = new System.Drawing.Size(75, 23);
-            this.button_Inventory_Delete.TabIndex = 1;
-            this.button_Inventory_Delete.Text = "Delete";
-            this.button_Inventory_Delete.UseVisualStyleBackColor = true;
-            this.button_Inventory_Delete.Click += new System.EventHandler(this.button_Inventory_Delete_Click);
+            this.button_Cart_Checkout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button_Cart_Checkout.Location = new System.Drawing.Point(404, 3);
+            this.button_Cart_Checkout.Name = "button_Cart_Checkout";
+            this.button_Cart_Checkout.Size = new System.Drawing.Size(63, 23);
+            this.button_Cart_Checkout.TabIndex = 0;
+            this.button_Cart_Checkout.Text = "Checkout";
+            this.button_Cart_Checkout.UseVisualStyleBackColor = true;
+            this.button_Cart_Checkout.Click += new System.EventHandler(this.button_Cart_Checkout_Click);
+            // 
+            // textBox_Cart_GrandTotal
+            // 
+            this.textBox_Cart_GrandTotal.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox_Cart_GrandTotal.Enabled = false;
+            this.textBox_Cart_GrandTotal.Location = new System.Drawing.Point(326, 3);
+            this.textBox_Cart_GrandTotal.Name = "textBox_Cart_GrandTotal";
+            this.textBox_Cart_GrandTotal.Size = new System.Drawing.Size(72, 20);
+            this.textBox_Cart_GrandTotal.TabIndex = 3;
+            // 
+            // label_Cart_GrandTotal
+            // 
+            this.label_Cart_GrandTotal.AutoSize = true;
+            this.label_Cart_GrandTotal.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label_Cart_GrandTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_Cart_GrandTotal.Location = new System.Drawing.Point(230, 0);
+            this.label_Cart_GrandTotal.Name = "label_Cart_GrandTotal";
+            this.label_Cart_GrandTotal.Size = new System.Drawing.Size(90, 29);
+            this.label_Cart_GrandTotal.TabIndex = 2;
+            this.label_Cart_GrandTotal.Text = "Grand Total";
+            this.label_Cart_GrandTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // button_Cart_Save
+            // 
+            this.button_Cart_Save.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button_Cart_Save.Location = new System.Drawing.Point(57, 3);
+            this.button_Cart_Save.Name = "button_Cart_Save";
+            this.button_Cart_Save.Size = new System.Drawing.Size(42, 23);
+            this.button_Cart_Save.TabIndex = 4;
+            this.button_Cart_Save.Text = "Save";
+            this.button_Cart_Save.UseVisualStyleBackColor = true;
+            this.button_Cart_Save.Click += new System.EventHandler(this.button_Cart_Save_Click);
             // 
             // tabPage_Account
             // 
@@ -439,14 +469,14 @@
             this.dataGridView_Orders.ShowEditingIcon = false;
             this.dataGridView_Orders.ShowRowErrors = false;
             this.dataGridView_Orders.Size = new System.Drawing.Size(470, 347);
-            this.dataGridView_Orders.TabIndex = 4;
+            this.dataGridView_Orders.TabIndex = 5;
             // 
             // button_Logout
             // 
-            this.button_Logout.Location = new System.Drawing.Point(203, 8);
+            this.button_Logout.Location = new System.Drawing.Point(209, 8);
             this.button_Logout.Name = "button_Logout";
             this.button_Logout.Size = new System.Drawing.Size(75, 23);
-            this.button_Logout.TabIndex = 1;
+            this.button_Logout.TabIndex = 0;
             this.button_Logout.Text = "Logout";
             this.button_Logout.UseVisualStyleBackColor = true;
             this.button_Logout.Click += new System.EventHandler(this.button_Logout_Click);
@@ -455,7 +485,7 @@
             // 
             this.cProductBindingSource.DataSource = typeof(OPS.CProduct);
             // 
-            // Seller_Home
+            // Customer_Home
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -464,11 +494,11 @@
             this.ClientSize = new System.Drawing.Size(584, 361);
             this.Controls.Add(this.tabControl_MAIN);
             this.MinimumSize = new System.Drawing.Size(600, 400);
-            this.Name = "Seller_Home";
+            this.Name = "Customer_Home";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Seller_Home_FormClosed);
-            this.Load += new System.EventHandler(this.Seller_Home_Load);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Customer_Home_FormClosed);
+            this.Load += new System.EventHandler(this.Customer_Home_Load);
             this.tabControl_MAIN.ResumeLayout(false);
             this.tabPage_Product.ResumeLayout(false);
             this.tableLayoutPanel_Product_Outer.ResumeLayout(false);
@@ -477,12 +507,13 @@
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Product)).EndInit();
             this.tabPage_Orders.ResumeLayout(false);
-            this.tabPage_Inventory.ResumeLayout(false);
-            this.tabPage_Inventory.PerformLayout();
-            this.tableLayoutPanel_Inventory_Outer.ResumeLayout(false);
-            this.tableLayoutPanel_Inventory_Outer.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Inventory)).EndInit();
+            this.tabPage_Cart.ResumeLayout(false);
+            this.tabPage_Cart.PerformLayout();
+            this.tableLayoutPanel_Cart_Outer.ResumeLayout(false);
+            this.tableLayoutPanel_Cart_Outer.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Cart)).EndInit();
             this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel3.PerformLayout();
             this.tabPage_Account.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Orders)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cProductBindingSource)).EndInit();
@@ -495,11 +526,10 @@
         private System.Windows.Forms.TabControl tabControl_MAIN;
         private System.Windows.Forms.TabPage tabPage_Product;
         private System.Windows.Forms.TabPage tabPage_Orders;
-        private System.Windows.Forms.TabPage tabPage_Inventory;
+        private System.Windows.Forms.TabPage tabPage_Cart;
         private System.Windows.Forms.TabPage tabPage_Account;
         private System.Windows.Forms.TextBox textBox_Product_Search;
         private System.Windows.Forms.Button button_Product_Search;
-        private System.Windows.Forms.Button button_Product_Add;
         private System.Windows.Forms.Button button_Product_Open;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel_Product_Outer;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
@@ -507,11 +537,14 @@
         private System.Windows.Forms.DataGridView dataGridView_Product;
         private System.Windows.Forms.ComboBox comboBox_Product_Search;
         private System.Windows.Forms.BindingSource cProductBindingSource;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel_Inventory_Outer;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel_Cart_Outer;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
-        private System.Windows.Forms.Button button_Inventory_Save;
-        private System.Windows.Forms.Button button_Inventory_Delete;
-        private System.Windows.Forms.DataGridView dataGridView_Inventory;
+        private System.Windows.Forms.Button button_Cart_Checkout;
+        private System.Windows.Forms.DataGridView dataGridView_Cart;
+        private System.Windows.Forms.Button button_Cart_Delete;
+        private System.Windows.Forms.Label label_Cart_GrandTotal;
+        private System.Windows.Forms.TextBox textBox_Cart_GrandTotal;
+        private System.Windows.Forms.Button button_Cart_Save;
         private System.Windows.Forms.DataGridView dataGridView_Orders;
         private System.Windows.Forms.Button button_Logout;
     }

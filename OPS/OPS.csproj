@@ -37,6 +37,10 @@
       <HintPath>..\packages\Google.Protobuf.3.1.0\lib\net45\Google.Protobuf.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="GoogleMapsApi, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GoogleMapsApi.0.60.0\lib\net45\GoogleMapsApi.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <HintPath>..\packages\MySql.Data.6.9.9\lib\net45\MySql.Data.dll</HintPath>
       <Private>True</Private>
@@ -66,19 +70,38 @@
   <ItemGroup>
     <Compile Include="CCatagory.cs" />
     <Compile Include="CCustomer_Cart.cs" />
+    <Compile Include="Checkout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Checkout.Designer.cs">
+      <DependentUpon>Checkout.cs</DependentUpon>
+    </Compile>
     <Compile Include="CLocation.cs" />
     <Compile Include="CCatagory_Field.cs" />
+    <Compile Include="COrder.cs" />
     <Compile Include="CProduct_Field.cs" />
     <Compile Include="CUser_Customer.cs" />
     <Compile Include="CProduct.cs" />
     <Compile Include="CSeller_Inventory.cs" />
     <Compile Include="CUser.cs" />
     <Compile Include="CUser_Seller.cs" />
+    <Compile Include="Customer_Home.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Customer_Home.Designer.cs">
+      <DependentUpon>Customer_Home.cs</DependentUpon>
+    </Compile>
     <Compile Include="Seller_Home_Product_Add.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Seller_Home_Product_Add.Designer.cs">
       <DependentUpon>Seller_Home_Product_Add.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Customer_Home_Product_Open.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Customer_Home_Product_Open.Designer.cs">
+      <DependentUpon>Customer_Home_Product_Open.cs</DependentUpon>
     </Compile>
     <Compile Include="Seller_Home_Product_Open.cs">
       <SubType>Form</SubType>
@@ -107,8 +130,17 @@
     <Compile Include="Seller_Home.Designer.cs">
       <DependentUpon>Seller_Home.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Checkout.resx">
+      <DependentUpon>Checkout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Customer_Home.resx">
+      <DependentUpon>Customer_Home.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Seller_Home_Product_Add.resx">
       <DependentUpon>Seller_Home_Product_Add.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Customer_Home_Product_Open.resx">
+      <DependentUpon>Customer_Home_Product_Open.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Seller_Home_Product_Open.resx">
       <DependentUpon>Seller_Home_Product_Open.cs</DependentUpon>
