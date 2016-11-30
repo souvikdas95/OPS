@@ -180,6 +180,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\abstract-mosaic-background.png" />
+    <None Include="Resources\bg123.jpg" />
     <Content Include="Resources\noimage.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

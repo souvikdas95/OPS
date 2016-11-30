@@ -156,6 +156,8 @@ namespace OPS
                 return;
             }
             MessageBox.Show("Successfully Added to Inventory!", "Success!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            this.Visible = false;
+            this.Dispose();
         }
 
         private void comboBox_Pincode_KeyPress(object sender, KeyPressEventArgs e)

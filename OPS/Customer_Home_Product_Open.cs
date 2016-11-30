@@ -204,6 +204,8 @@ namespace OPS
                 return;
             }
             MessageBox.Show("Successfully Added to Cart!", "Success!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            this.Visible = false;
+            this.Dispose();
         }
 
         private void Customer_Home_Product_Open_SizeChanged_Custom(object sender, EventArgs e)

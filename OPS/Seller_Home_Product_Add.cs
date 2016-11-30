@@ -218,6 +218,8 @@ namespace OPS
                                              inv.warranty)))
                             {
                                 MessageBox.Show("Successfully Added to Inventory!", "Success!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                this.Visible = false;
+                                this.Dispose();
                                 return;
                             }
                         }

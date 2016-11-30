@@ -113,9 +113,7 @@
             this.comboBox_Account.FormattingEnabled = true;
             this.comboBox_Account.Items.AddRange(new object[] {
             "Customer",
-            "Seller",
-            "Product Manager",
-            "Order Manager"});
+            "Seller"});
             this.comboBox_Account.Location = new System.Drawing.Point(117, 63);
             this.comboBox_Account.Name = "comboBox_Account";
             this.comboBox_Account.Size = new System.Drawing.Size(135, 21);

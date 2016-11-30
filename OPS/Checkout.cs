@@ -83,7 +83,12 @@ namespace OPS
             if (CUtils.LastLogMsg != null)
                 MessageBox.Show("Cause: " + CUtils.LastLogMsg, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             else
+            {
                 MessageBox.Show("Successfully Ordered!", "Success!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                prev.Visible = true;
+                this.Visible = false;
+                this.Dispose();
+            }
         }
 
         private void Checkout_FormClosed(object sender, FormClosedEventArgs e)
